@@ -81,12 +81,108 @@ existing password setups.
 In chapter~\ref{chapter:alternatives}, these alternatives will be
 compared and assessed for their ease of adoption within a business.
 
-\chapter{Problems with Passwords}
+\chapter{The Cost of Passwords}
 \label{chapter:costs}
 
-\section{The Costs of Passwords}
+The username-password pair is arguably a \emph{de facto} standard
+authentication mechanism employed by IT and security departments
+within many businesses. The default install of any operating
+system (Linux, Mac OS X, Windows, etc.) treats all user accounts
+as consisting minimally of these pair of credentials and a
+username-password login prompt is frequently the first
+screen to greet users when a newly-installed OS is booted
+for the first time.
+
+In this chapter, we will explore the burden passwords place
+on users, the challenges to usability they create and
+the effectiveness of standard policies and procedures
+frequently employed around password use.
+
+%Linux and Mac systems make use of the Pluggable Authentication
+%Mechanism (PAM), which weakens the assumption that authentication
+%must be done with a password (password authenication is just one
+%module available for PAM). Corporate systems typically make
+%use of centralised user directories (e.g. Active Directory, OpenLDAP),
+%which allows users to use common credentials across multiple
+%IT systems (reducing the need for users to memorise multiple
+%sets of credentials).
+
+\section{Passwords and Usability}
+
+\cite{adams1999users} famously asserted 15 years ago that security
+departments take an inappropriate approach to security risk
+by treating users as risk themselves to be controlled. They
+argue further that security compromises are either knowingly
+or unknowingly due to the way security is implemented more than
+it is the direct fault of users themselves. Their recommendation
+is that any security approaches need to be designed in
+a user-centric way not just to increase usability, but to
+reduce the likelihood of compromises ultimately.
+
+Their work is still widely cited 15 years later, but
+today, employees are increasingly using passwords in their
+workplace in addition to a pleathora of passwords for
+other services used personally. A user-centric design
+approach to a modern, enterprise security setup needs to
+be even more sympathetic to the large burden on users
+from managing so many online accounts.
+
+\cite{herley2009so} argues that users rationally reject costs
+placed upon them from security policies and invokes Kuhn's
+``Paradigm Shift''\parencite{kuhn1962structure} to suggest
+that the increasing burden placed on users with every attack
+that takes place and the additional complexity that comes
+therewith may hint at an imminent, yet dramatic change in
+how users are asked to authenticate. It is yet to be seen
+if Kuhn's observations of sudden shifts of thinking
+in the scientific community apply to a more general
+userbase such as employees or indeed the general public, but
+a strong need for true change can be taken from the analogy
+at least.
+
+So, what is the nature of the burden experienced by users?
+In the next few sections, we look at various aspects
+of password security, how users are normally advised
+and critically examine the effectiveness of that advice.
+
 \section{Password Strength}
-\section{Expiry}
+
+Password-protection accounts are vunerable to at least three
+classes of attack\parencite{florencio2014password}:
+
+\begin{itemize}
+  \item Malware infection or other direct compromise of the client machine (e.g. keyloggers)
+  \item Attacker learns the passwords via phishing, brute-force guessing or other means
+  \item Access to a particular system is gained without the actual password (e.g session hijacking, cross-site request forgery)
+\end{itemize}
+
+The notion of \emph{password strength} describes how likely
+a password is to suffer the attacker learning the password via brute-force
+guessing. A brute-force attack can be said to be \emph{online} (where the
+attacker is sending multiple login attempts directly to a system protecting
+by authentication) or \emph{offline} (where an attacker has a local copy of
+an encrypted file or hashed password, to which she can perform an unlimited
+number of attempts at cracking the password without arousing suspicion).
+
+Information Theory and entropy can allows us to gauge a password's strength
+in terms of \emph{bits}, which gives us an estimate of the likelihood of
+an attacker guessing the password in one attempt. Passwords which are
+more unlikely to guess have more bits and are thus consider stronger passwords.
+
+The advice for creating strong passwords normally takes the form of tips
+such as:
+
+\begin{itemize}
+  \item use longer passwords;
+  \item avoid using real words;
+  \item use a mix of lower and upper case; and
+  \item include numbers and other non-alphanumeric characters.
+\end{itemize}
+
+
+
+\section{Password Expiry}
+
 
 \chapter{Comparative Analysis of Password Alternatives}
 \label{chapter:alternatives}
