@@ -1,0 +1,100 @@
+\documentclass{report}
+
+\usepackage[style=authoryear,backend=biber]{biblatex}
+
+\title{The Folly of Passwords}
+\author{Ross Fenning}
+
+\bibliography{references}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter{Introduction}
+
+The use of passwords for authentication is certainly commonplace.
+% TODO: How many passwords?
+It is standard practice within small and large enterprises alike
+to require employees to authenticate before using desktop
+computers, mobile devices or centralised services (e.g.
+as company email, corporate intranet or web-based self-service
+systems for tasks such as booking annual leave).
+
+These authentication requirements are largely driven by
+several desires:
+
+\begin{itemize}
+  \item to prevent use of systems by non-employees;
+  \item to maintain an audit trail of employees' usage;
+  \item to protect company secrets and intellectual property;
+  \item to safeguard the personal information of customers and employees; and
+  \item to prevent economic and reputational damage from would-be attackers.
+\end{itemize}
+
+Additional security in any system normally comes with additional costs
+in terms of usability for users and in financial terms for the organisation
+that must implement any security processes and policies. However,
+whilst many of the benefits and requirements listed above should justify
+these costs, they are notably gains (or prevention of losses) for
+the organisation itself more than they are gains for the individual
+employees.
+
+In chapter~\ref{chapter:costs}, we will explore the
+cost-benefit trade-offs more closely and demonstrate that the status
+quo unreaslistically transfers costs to employees to support gains
+for the organisations.
+
+Passwords are not the only approach to verifying a user's identity.
+The methods by which a user can be authenticated are known to fall
+into three categories -- or \emph{factors} -- of authentication
+\parencite{council2005authentication}:
+
+\begin{itemize}
+  \item something the user \emph{knows}, such as a password, a PIN or
+    personal information (e.g. mother's maiden name);
+  \item something the user \emph{has}, such as a passport, a mobile device
+    a paper ticket; and
+  \item something the user \emph{is}, such as their DNA sequence,
+    their retinal pattern, their fingerprint.
+\end{itemize}
+
+It should be noted that some methods can be argued as spanning
+over two factors. For example, a credit card is something
+a bank customer possesses, but the card number is something
+an attacker could learn without the owner losing ownership
+of the card. In the context of many online purchase, credit
+card \emph{details} arguably become something a user \emph{knows}.
+
+User authentication that requires two differing factors
+of authentication (known as \emph{two-factor authentication}. There
+has been a rise in two-factor authenication with companies
+such as Google, Amazon, Microsoft, Paypal and Twitter having enabled
+two-factor authentication for user accounts.
+
+The mainstream adoption of authentication methods other than
+passwords suggests increased ease in enterprises adoption means
+of verifying users either instead of or in addition to
+existing password setups.
+
+In chapter~\ref{chapter:alternatives}, these alternatives will be
+compared and assessed for their ease of adoption within a business.
+
+\chapter{Problems with Passwords}
+\label{chapter:costs}
+
+\section{The Costs of Passwords}
+\section{Password Strength}
+\section{Expiry}
+
+\chapter{Comparative Analysis of Password Alternatives}
+\label{chapter:alternatives}
+
+\chapter{Conclusions and Recommendations}
+
+\chapter{Further Work}
+
+\printbibliography
+
+\end{document}
