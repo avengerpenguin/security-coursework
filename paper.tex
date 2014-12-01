@@ -157,7 +157,7 @@ classes of attack\parencite{florencio2014password}:
 \end{itemize}
 
 The notion of \emph{password strength} describes how likely
-a password is to suffer the attacker learning the password via brute-force
+a password is to suffer from an attacker learning the password via brute-force
 guessing. A brute-force attack can be said to be \emph{online} (where the
 attacker is sending multiple login attempts directly to a system protecting
 by authentication) or \emph{offline} (where an attacker has a local copy of
@@ -179,7 +179,26 @@ such as:
   \item include numbers and other non-alphanumeric characters.
 \end{itemize}
 
+\cite{kaufman2002network} facetiously claimed that humans are poor
+at memorising strong passwords/keys:
 
+\begin{quotation}
+  \emph{
+  Humans are incapable of securely storing high-quality
+  cryptographic keys, and they have unacceptable speed and
+  accuracy when performing cryptographic operations. (They are
+  also large, expensive to maintain, difficult to manage, and they
+  pollute the environment. It is astonishing that these devices
+  continue to be manufactured and deployed. But they are
+  sufficiently pervasive that we must design our protocols around
+  their limitations.)
+  }
+\end{quotation}
+
+This presents a problem if users are poor at working with the
+very kind of passwords needed to avoid brute-force cracking. It
+would suggest that a user-centric design would lead to something
+more in line with abilities humans \emph{do} have.
 
 \section{Password Expiry}
 
