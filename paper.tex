@@ -140,6 +140,40 @@ userbase such as employees or indeed the general public, but
 a strong need for true change can be taken from the analogy
 at least.
 
+%TODO: something about the large list of password rules
+
+Additionally, SOMEONE explored economic arguments and models
+to argue that the incredibly low, \emph{a priori} likelihood
+of a user's account being compromised leads to a monetary
+cost value far lower than that needed to justify a user
+spending any real time at all strengthening their password.
+This may be a case for a general, public account, but perhaps
+some accounts with, e.g. corporate webmail, could be classed
+as higher risk and bigger targets for attackers. An attack
+on a corporate account might allow access to systems that
+can lead to real economic or reputational damage.
+
+We can argue that these costs -- even if higher than those
+in SOMEONE's models -- are mainly suffered by the \emph{organisation}
+more than the employees. This is very similar to SOMEONE's
+arguments that even in the case of banks, they are likely
+to take on the costs of fraud and prevent their customers
+from exposure to those costs themselves.
+
+This effect is classed
+by SOMEONE as a negative externality on computer users in
+that they are taking on additional effort to cover costs
+that are not their own. These economic arguments can be
+used to make a case for organisations taking more
+responsibility and investing more to prevent the costs
+from a security compromise. This can be combined with
+the arguments for a more user-centric design
+\parencite{adams1999users} to build a case for a new
+authentication paradigm that is low friction to users and
+where economic incentives lead to an equilibrium where
+organisations spend exactly as much on security as
+is rationally justified by their real risks and costs.
+
 So, what is the nature of the burden experienced by users?
 In the next few sections, we look at various aspects
 of password security, how users are normally advised
@@ -147,7 +181,7 @@ and critically examine the effectiveness of that advice.
 
 \section{Password Strength}
 
-Password-protection accounts are vunerable to at least three
+Password-protected accounts are vunerable to at least three
 classes of attack\parencite{florencio2014password}:
 
 \begin{itemize}
@@ -164,7 +198,7 @@ by authentication) or \emph{offline} (where an attacker has a local copy of
 an encrypted file or hashed password, to which she can perform an unlimited
 number of attempts at cracking the password without arousing suspicion).
 
-Information Theory and entropy can allows us to gauge a password's strength
+Information Theory and entropy can allow us to gauge a password's strength
 in terms of \emph{bits}, which gives us an estimate of the likelihood of
 an attacker guessing the password in one attempt. Passwords which are
 more unlikely to guess have more bits and are thus consider stronger passwords.
@@ -200,8 +234,22 @@ very kind of passwords needed to avoid brute-force cracking. It
 would suggest that a user-centric design would lead to something
 more in line with abilities humans \emph{do} have.
 
+Futhermore, many have noted that strong passwords defend
+against \emph{only} that single attack vector. Learning the
+password within guessing (e.g. via phishing) will put strong
+passwords in the hands of attackers just as easily as with
+weak passwords. Also, different classes of attacks entirely
+such as installing keyloggers via malware or hijacking browser
+sessions are unaffected by password strength.
+
+%TODO: who?
+Some have thus questioned whether the benefits from strong
+passwords are as substantial as standard security advice
+would suggest.
+
 \section{Password Expiry}
 
+\section{Password Reuse}
 
 \chapter{Comparative Analysis of Password Alternatives}
 \label{chapter:alternatives}
