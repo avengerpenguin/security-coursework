@@ -117,18 +117,19 @@ or unknowingly due to the way security is implemented more than
 it is the direct fault of users themselves. Their recommendation
 is that any security approaches need to be designed in
 a user-centric way not just to increase usability, but to
-reduce the likelihood of compromises ultimately.
+reduce the likelihood of compromises as well.
 
 Their work is still widely cited 15 years later, but
 today, employees are increasingly using passwords in their
-workplace in addition to a pleathora of passwords for
-other services used personally. A user-centric design
+workplace in addition to a plethora of passwords for
+other services used personally outside of work.
+A user-centric design
 approach to a modern, enterprise security setup needs to
 be even more sympathetic to the large burden on users
 from managing so many online accounts.
 
 \cite{herley2009so} argues that users rationally reject costs
-placed upon them from security policies and invokes Kuhn's
+placed upon them from security policies. He invokes Kuhn's
 ``Paradigm Shift''\parencite{kuhn1962structure} to suggest
 that the increasing burden placed on users with every attack
 that takes place and the additional complexity that comes
@@ -136,7 +137,7 @@ therewith may hint at an imminent, yet dramatic change in
 how users are asked to authenticate. It is yet to be seen
 if Kuhn's observations of sudden shifts of thinking
 in the scientific community apply to a more general
-userbase such as employees or indeed the general public, but
+user base such as employees or indeed the general public, but
 a strong need for true change can be taken from the analogy
 at least.
 
@@ -234,6 +235,7 @@ very kind of passwords needed to avoid brute-force cracking. It
 would suggest that a user-centric design would lead to something
 more in line with abilities humans \emph{do} have.
 
+% TODO: many = who?
 Futhermore, many have noted that strong passwords defend
 against \emph{only} that single attack vector. Learning the
 password within guessing (e.g. via phishing) will put strong
@@ -242,14 +244,63 @@ weak passwords. Also, different classes of attacks entirely
 such as installing keyloggers via malware or hijacking browser
 sessions are unaffected by password strength.
 
+It should also be noted that password strength is
+used mainly to prevent
+\emph{offline} brute force attacks as many systems
+implement a policy of locking an account (or otherwise
+delaying password attempts) when too many incorrect
+password guesses are made. This effectively negates any
+\emph{online} brute force attack against even a very weak
+password.
+
 %TODO: who?
 Some have thus questioned whether the benefits from strong
 passwords are as substantial as standard security advice
-would suggest.
+would suggest. However, this is perhaps still a concern
+for an organisation as it likely does not want to suffer
+a breach in an account that had a weak password. Some
+online brute force attacks have been known to take place
+where the attackers enumerate over all known user accounts
+using a set of common or weak passwords. This increases
+the probability that they gain access to at least one
+account, which may be more useful than targeting a single
+account.
+
+So, if there is still an incentive for an organisation
+to ensure its employees' accounts are secure, but there
+are few pressures (or even rational justification)
+for the individual users to spend their time and effort doing
+so, what can the organisation do?
+
+One classical solution to weak passwords
+has been to enforce password strength \emph{requirements}.
+This is a technical solution whereby the systems simply
+reject self-selected user passwords that do not conform
+to a target strength or entropy.
+This is a technical solution that shifts the burden forcibly onto
+users and we can argue it is susceptible to the deliberate workarounds
+that many users ultimately employ to reduce the overheads
+in performing their primary jobs.
+
+Another, softer approach is to attempt to educate users
+on choosing strong, yet memorable, passwords. This belief
+that weak passwords are always down to lack of training
+is fundementally challenged in the influential findings
+of \cite{adams1999users}. Their work combined with the
+economics-based arguments and models introduced by %WHO?
+builds a large weight of evidence that well-informed
+users will still not follow much security advice
+(sometimes rationally so) to reduce their own costs in
+time and effort or to remove a significant barrier
+to performing their work tasks.
 
 \section{Password Expiry}
 
+
+
 \section{Password Reuse}
+
+\section{The Case for a Paradigm Shift}
 
 \chapter{Comparative Analysis of Password Alternatives}
 \label{chapter:alternatives}
