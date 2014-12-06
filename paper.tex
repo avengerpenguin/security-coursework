@@ -181,6 +181,7 @@ of password security, how users are normally advised
 and critically examine the effectiveness of that advice.
 
 \section{Password Strength}
+\label{sec:strength}
 
 Password-protected accounts are vunerable to at least three
 classes of attack\parencite{florencio2014password}:
@@ -296,11 +297,90 @@ to performing their work tasks.
 
 \section{Password Expiry}
 
+Brute-force password guessing can also be mitigated by
+users changing passwords frequently enough that attackers
+have a short window within which to guess a particular
+password.
 
+As with password strength, this is only mitigating the
+brute-force guessing attack vector as phishing, keylogging, etc.
+can still give an attacker a password for a short while -- until
+the password is next changed. As with password strength, this
+is also most effective against offline brute-force attacks (e.g.
+the attacker has acquired a list of hashed passwords) an
+account locking policy also prevents an online brute-force
+attack without the need for passwords to expire.
+
+It is a fairly common practice in many organisations to
+implement a password expiration policy whereby the
+authentication systems will require a user to change their
+password after some defined period of time.
+
+\cite{adams1999users} note that password expiry increases
+the burden on users having to memorise multiple passwords and that
+50\% of users in their study wrote passwords down, with one
+person citing a monthly password expiration policy as the cause
+of having to do so.
+
+\cite{zhang2010security} go further to demonstrate the ease of
+algorithmically predicting a user's new password when the old,
+expired password is known. They assert that password expiration
+is weak at achieving the intent behind its implementation and
+support the idea of moving away from passwords entirely.
 
 \section{Password Reuse}
 
+Security advice given to users usually includes the suggestion that users
+have a unique password for each service they use. This can
+be an unreasonable burden on users\parencite{florencio2014password}
+and is thus an unrealistic expectation for an organisation or online
+service.
+
+\cite{preibusch2010password} showed how the pressure to reuse passwords
+presents negative externalities from security-indifferent websites upon
+security-concerned websites. This presents an organisation with
+security risks stemming solely from the existence of other, less
+secure websites with which its employees have accounts.
+
+The secret nature of passwords means an organisation cannot \emph{enforce}
+the use of unique passwords, so it must either make reuse impossible or
+reduce the impact from reuse. Businesses can make reuse impossible
+by having password strength requirements that are stronger than
+services less concerned with security, with which employeess may also have
+accounts. This is susceptible to the issues in section~\ref{sec:strength}
+where this increases costs on users over and above than those they will
+suffer from a security breach.
+
+Clearly, password reuse is a coping strategy for users arising from the
+difficulty humans have with passwords as an authentication mechanism. This
+adds weight further to the case for a real shift away from passwords in
+general. We will explore this case in section~\ref{sec:case} and evaluate
+the alternatives to password use in chapter~\ref{chapter:alternatives}.
+
 \section{The Case for a Paradigm Shift}
+
+In this chapter, we have built up the following claims:
+
+\begin{enumerate}
+  \item Strong passwords reduce guessability, but do not protect against
+    many other attacks whilst adding an economically inefficient cost to users'
+    time and effort.
+  \item Password expiration policies are similar in only protecting against
+    brute-force guessing and their effectiveness is called into question when
+    users use simple mutations to choose their next password.
+  \item Organisations and websites do not exist in isolation, but instead in
+    an ecosystem where their users have passwords on other services and are likely
+    to reuse them to reduce the burden of memorising too many.
+\end{enumerate}
+
+In summary, the use of passwords is problematic for organisations and policies
+to reduce those problems place the costs on the wrong people: the users. We can
+make the case here for a shift away from passwords in general or at least
+for further research into user-centric designs that handle the costs of security
+rationally with suitable consideration given to usability.
+
+In chapter~\ref{chapter:alternatives}, we look at some alternatives to passwords
+and evaluate them.
 
 \chapter{Comparative Analysis of Password Alternatives}
 \label{chapter:alternatives}
