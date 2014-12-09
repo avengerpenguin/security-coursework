@@ -385,6 +385,130 @@ and evaluate them.
 \chapter{Comparative Analysis of Password Alternatives}
 \label{chapter:alternatives}
 
+\section{What alternatives exist?}
+
+Much of the literature talks about introducting password alternatives
+as part of two-factor authentication, i.e. introducting a second factor
+alongside a password to reduce some of the insecurities of password use
+alone. It could be argued, however, that such methods may be used as
+a \emph{replacement} for password use and there would still be an increase
+in both usability and security.
+
+Single factor based on possession (``something
+you have'') is both more intuitive (people are used to carrying credit cards
+and keys safely more than they are capable of memorising random
+cryptographic secrets) and more secure (more usability reduces the chance
+people will ``work around'' the mechanisms).
+
+Ultimately, if we can evaluate the use of each alternative as if it were
+to be used as a single-factor, it should not prevent an organisation
+adopting the alternative alongside password authentication in principle. We
+will give some consideration for the ease of doing so in our evaluation. We
+would advise always doing so as part of a design that considers the users,
+models their use cases and ensures that the approach is indeed increasing
+security more than it is just moving the costs onto the users.
+
+\cite{van2011tiqr} introduced a new alternative authentication mechanism
+called \emph{tiqr} that uses QR codes and a bespoke smartphone app. In
+doing so, he also listed and evaluated a number of existing alternatives. We
+can thus make a working list of existing non-password authentication
+mechanisms:
+
+\begin{itemize}
+  \item OTP Apps (generating One-Time Password codes with a smartphone app, e.g.
+    using HOTP or TOTP as are used by Google Authenticator)
+  \item OTP Tokens (physical tokens such as SecurID that generate one-time
+    password codes at the press of a button)
+  \item SMS OTP (sending a user one-time password codes over SMS)
+  \item PKI Tokens (a physical item such as a smartcard that contains
+    a cryptographic private/public key pair)
+  \item Mobile PKI (an approach similar to PKI tokens, but uses the SIM of a
+    mobile as the key, which allows key authentication over SMS)
+  \item Challenge/response tokens (similar to OTP tokens, but uses symmetric
+    encryption to respond to challenges)
+  \item TIQR (a web authenication approach that involves QR codes and a
+    bespoke smartphone app)
+  \item PAM USB (a module for PAM that turns any USB mass storage device
+    into a physical key to unlock or lock a computer)
+\end{itemize}
+
+PAM USB\parentcite{steele2005paranoid} is an additional mechanism added to
+this list. It allows users of Unix systems to log in by plugging in a USB
+mass storage device.
+
+In this paper, we will explore the feasibiity of adopting some of
+these authentication methods within an enterprise. The primary consideration
+is around detailing the setup and maintenance steps and whether any
+method can be justifiably ruled out in the early phases of a feasibility
+study. In section~\ref{sec:evaluation}, we will look at how the evaluation
+was carried out and the remaining sections detail that evaluation against each
+considered method.
+
+\section{Evaluating Use in the Enterprise}
+\label{sec:evaluation}
+
+Some of the identified alternatives to password authentication were
+evaluated for use in an organisational setting. The focus of this evaluation
+was to detail the steps involved in creating a toy network of machines
+that allowed common authentication across a representative sample of
+classes of services that may be used by businesses.
+
+The requirements for our toy/proof-of-concept systems were:
+
+\begin{itemize}
+  \item users can sign into desktop machines using the authentication method
+    being evaluated;
+  \item users can then access their corporate email without needing additionally
+    supplying a password to do so;
+  \item users are able to sign in to a dummy web service (a simple static page
+    behind an authentication layer was used);
+  \item services should be able to acquire information about a user for
+    authorisation purposes (e.g. determining a user's department from
+    a corporate user directory service); and
+  \item users should be able to do remote SSH login to development Unix
+    servers (this assumes a company where this is a common work task, e.g.
+    software development, which is including to exercise the authentication
+    further rather than to act as a typical business use case).
+\end{itemize}
+
+This setup has many parallels with the needs for common credentials or
+Single Sign-On (SSO) within business computer systems. It is typical for
+companies to have an authoritative directory server so that users
+can at least use the same password across all company services. Some businesses
+attempt true SSO and ensure users only type their password during initial
+login and they are automatically authorised against all revelant systems
+thereafter. This is recommended practice to reduce some of the effort
+remembering multiple passwords or even typing the same password several times
+a day. Ideally, a suitable password alternative would provide similar
+convenience in minimising effort from users when allowing access to a multitude
+of systems in a day.
+
+The methods evaluated were:
+
+\begin{itemize}
+  \item OTP Apps. This is functionally equivalent to a physical OTP token,
+    so a single evaluation was done on OTP apps only with the assumption that
+    many aspects will generalise to any OTP generator. Some consideration
+    was made around SMS OTP, but this was not evaluated directly.
+  \item PKI Tokens. A smartcard-based PKI token was evaluated with the
+    assumption again this will extrapolate to any PKI token. Mobile PKI was
+    ruled out for consideration as it requires mobile operators to install
+    keys on their customers SIM cards, which has been problematic in the
+    past.
+  \item PAM USB.
+\end{itemize}
+
+TIQR was ruled out as the aims of the project to date seem to be based around
+web-based logins only, which does not fit our defined enterprise need of
+supporting desktop computer login.
+
+
+\section{PKI Tokens and Smartcards}
+
+\section{OTP Mobile Apps}
+
+\section{PAM USB}
+
 \chapter{Conclusions and Recommendations}
 
 \chapter{Further Work}
