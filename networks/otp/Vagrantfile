@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    # Configure cached packages to be shared between instances of the same base box.
+    # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+    config.cache.scope = :box
+    config.cache.enable :apt
+  end
+
+  config.vm.box = "https://github.com/jose-lpa/packer-debian_7.6.0/releases/download/1.0/packer_virtualbox-iso_virtualbox.box"
+  config.vm.provision "shell", inline: "sudo aptitude update"
+  config.vm.provision "shell", inline: "sudo aptitude full-upgrade -y"
+
+  config.vm.define "auth" do |auth|
+
+    auth.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--memory", "256"]
+    end 
+
+    auth.vm.provision "shell", inline: "echo 'krb5-config	krb5-config/default_realm	string	example.com' | debconf-set-selections"
+    auth.vm.provision "shell", inline: "echo 'krb5-config	krb5-config/add_servers_realm	string	example.com' | debconf-set-selections"
+    auth.vm.provision "shell", inline: "DEBIAN_FRONTEND=noninteractive  sudo aptitude install -y krb5-admin-server krb5-kdc"
+    auth.vm.provision "shell", inline: "sudo kdb5_util create -s -r example.com"
+    auth.vm.provision "shell", inline: "sudo dpkg-reconfigure krb5-kdc"
+
+  end
+
+  config.vm.define "desktop" do |desktop|
+
+    desktop.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--memory", "512"]
+      v.gui = true
+    end 
+
+    desktop.vm.provision "file", source: "pam-oath", destination: "/tmp/pam-oath"
+    desktop.vm.provision "shell", inline: "sudo mv /tmp/pam-oath /usr/share/pam-configs/oath"
+    desktop.vm.provision "shell", inline: "echo 'libpam-runtime libpam-runtime/profiles multiselect oath' | debconf-set-selections"
+    desktop.vm.provision "shell", inline: "DEBIAN_FRONTEND=noninteractive sudo aptitude install -y ntpdate libpam-oath oathtool debconf-utils xfce4 xdm"
+    desktop.vm.provision "shell", inline: "sudo adduser testuser --disabled-password --gecos ''"
+    desktop.vm.provision "shell", inline: "echo 'HOTP/T30/6 testuser - 3132333435363738393031323334353637383930' | tee /etc/users.oath"
+    desktop.vm.provision "shell", inline: "sudo service xdm restart"
+
+  end
+
+  #config.vm.define "web" do |web|
+  #  config.vm.provision "shell", inline: "sudo aptitude install -y apache2"
+  #end
+
+end

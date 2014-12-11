@@ -1,0 +1,6 @@
+Name: OATH
+Default: yes
+Priority: 900
+Auth-Type: Primary
+Auth:
+sufficient pam_oath.so debug usersfile=/etc/users.oath window=30
