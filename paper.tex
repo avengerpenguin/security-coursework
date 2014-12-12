@@ -496,6 +496,9 @@ The methods evaluated were:
     keys on their customers SIM cards, which has been problematic in the
     past.
   \item PAM USB.
+  \item YubiKey. This is a hardware USB device from Yubico that can act
+    as an OTP generator, a challenge-response token and even a store
+    for a static password.
 \end{itemize}
 
 TIQR was ruled out as the aims of the project to date seem to be based around
@@ -572,17 +575,55 @@ However, this PAM module has the same limitations as the
 OATH OTP module in that the very simple local authenication
 is not easily forwarded to other services on the network.
 
+%An advantage this module has over the OATH OTP module is that
+%local applications can make authentication requests
+%multiple times without the user needing to be involved. As
+%long as the USB device remains connected, applications
+%can authenticate multiple times, but OTP authentication
+%will require a new password to be entered on each authentication
+%request.
+
 An advantage this module has over the OATH OTP module is that
-local applications can make authentication requests
-multiple times without the user needing to be involved. As
-long as the USB device remains connected, applications
-can authenticate multiple times, but OTP authentication
-will require a new password to be entered on each authentication
-request.
+a USB storage device can also store other authentication
+information such as SSH keys, SSL client certificates or
+anything else to aid the Single Sign-On experience. This
+increases the impact of the device being lost unless
+these private keys are secured with a password, which
+reintroduces passwords back into the user's workflow. Alternatively,
+the risks of loss could be mitigated with an effective
+key and certificate revocation process.
+
+Futher research may find a solution to storing keys
+and certificates on a USB device without passwords or highlight
+whether the risks of doing so are too high.
 
 \section{PKI Tokens and Smartcards}
 
+Our test desktop machine was configured to accepted login
+with a smartcard reader and an OpenPGP smartcard
+\parencite{pietig2009functional}. The OpenPGP card integrates
+with GnuPG to provide a public-private key pair that can
+be used for encryption.
 
+GnuPG has a gpg-agent service that allows these keys to
+be used for SSH authentication as well, which can provide
+a Single Sign-On experience betweeen logging in to a local
+desktop and connecting out to remote servers.
+
+For desktop login, we were able to use the ``Poldi'' PAM
+module. The use of the smartcard requires a PIN and
+the card has a lock-out after 3 incorrect tries. This is
+behaviour users can recognise from their bank smartcards
+and the lock-out feature negates the guessability of
+even a weak 4 to 6 digit PIN.
+
+The use of a PIN does not eliminate the ``something you
+know'' factor, but a short PIN is far less of a burden
+than the requirement for users to have strong, random
+passwords. This could be a reasonable compromise for an
+enterprise given some further usability research.
+
+\section{YubiKey}
 
 \chapter{Conclusions and Recommendations}
 
