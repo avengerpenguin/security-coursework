@@ -403,7 +403,7 @@ people will ``work around'' the mechanisms).
 Ultimately, if we can evaluate the use of each alternative as if it were
 to be used as a single-factor, it should not prevent an organisation
 adopting the alternative alongside password authentication in principle. We
-will give some consideration for the ease of doing so in our evaluation. We
+gave some consideration for the ease of doing so in our evaluation. We also
 would advise always doing so as part of a design that considers the users,
 models their use cases and ensures that the approach is indeed increasing
 security more than it is just moving the costs onto the users.
@@ -511,16 +511,78 @@ The chosen OTP system was the OATH Toolkit and specifically its
 module for the Unix Pluggable Authentication Module (PAM) system
 \parencite{samar1996unified}.
 
-The OATH PAM module is simple to configure on a Debian GNU/Linux desktop
-computer and provides one-time password login using any OTP token or mobile
-app, such as Google Authenticator.
+The OATH PAM module was simple to configure on a Debian GNU/Linux desktop
+computer and provided one-time password login using any OTP token or mobile
+app, such as Google Authenticator. Our setup was tested with both the
+command line tool from the OATH Toolkit as well as with the
+Google Authenticator Android app.
 
+The challenge here is that each user needs a unique secret which has to
+be managed on a trusted server. The secret for every employee then needs
+to be available in a configuration file on every desktop computer. This
+can be achieved with configuration management systems such as Puppet,
+Chef, Ansible, Salt, etc.
 
+Another option is to try to centralise the OTP authentication.
+Solutions such as LinOTP suggest the abiity to have a centralised
+OTP-based authentication system with a custom PAM module. Combined
+with Kerberos, true Single Sign-On should then be possible
+including for access to email and web-based applications.
+
+A centralised solution is more flexible for corporate systems
+as PAM does not provide an intrinsic method for fowarding local
+authentication on to other services. Microsoft Windows achieved
+this in the past with NTLM -- which is possible to configure
+also on Unix systems with Winbind -- but that is largely
+regarded as an insecure mechanism today.
+
+Some desktop environments (e.g. Gnome, Mac OS X, etc.) provide
+a local keychain that can store SSH keys, SSL certificates, etc.
+which are unlocked whilst the user is logged in, but inaccessible
+otherwise. This already provides a convenience desktop
+users, but it relies on the user authenticating with a password
+that is then the same password used to update the keychain
+(Mac OS X updates the keychain password when the user's main
+account password is changed). There maybe be some scope for
+further research into whether dekstop keychains can be made
+compatible with OTP authentication.
+
+There is certainly scope for further work to evaluate extensive
+use of LinOTP and Kerberos within an enterprise setting and the
+benefits they bring over relying on a local desktop keychain.
+
+\section{PAM USB}
+
+The PAM USB module for the PAM system is similar in many
+ways to the OATH OTP module in terms of setup. The module
+installs easily on Debian GNU/Linux systems and it provides
+tools to manage a single configuration file that stores a
+mapping between users and an identifier for their USB device.
+
+The module also provides a mechanism for locking computers
+when the USB key is removed, which is helpful in corporate
+environments where users are instructed to lock their desktops
+when they are unattended. This mechanism is in line with
+drivers removing their keys when they leave their car
+unattended, so this is more in line with existing user
+habits than asking users not to disclose or to strengthen
+their passwords.
+
+However, this PAM module has the same limitations as the
+OATH OTP module in that the very simple local authenication
+is not easily forwarded to other services on the network.
+
+An advantage this module has over the OATH OTP module is that
+local applications can make authentication requests
+multiple times without the user needing to be involved. As
+long as the USB device remains connected, applications
+can authenticate multiple times, but OTP authentication
+will require a new password to be entered on each authentication
+request.
 
 \section{PKI Tokens and Smartcards}
 
 
-\section{PAM USB}
 
 \chapter{Conclusions and Recommendations}
 
