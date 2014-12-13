@@ -33,3 +33,4 @@ paper.pdf: paper.tex references.bib
 	pdflatex paper
 	biber paper
 	pdflatex paper
+	pdflatex paper

@@ -372,6 +372,7 @@ general. We will explore this case in section~\ref{sec:case} and evaluate
 the alternatives to password use in chapter~\ref{chapter:alternatives}.
 
 \section{The Case for a Paradigm Shift}
+\label{sec:case}
 
 In this chapter, we have built up the following claims:
 
@@ -446,7 +447,7 @@ mechanisms:
     into a physical key to unlock or lock a computer)
 \end{itemize}
 
-PAM USB\parentcite{steele2005paranoid} is an additional mechanism added to
+PAM USB\parencite{steele2005paranoid} is an additional mechanism added to
 this list. It allows users of Unix systems to log in by plugging in a USB
 mass storage device.
 
@@ -653,13 +654,13 @@ to be used in other organisations that have similar security requirements.
 The \emph{Scute} project provides a PKCS~\#11 module that allows an OpenPGP
 smartcard to be used with the Network Security Services (NSS) within
 the Firefox web browser (we believe Chrome also supports this, but Firefox
-was used in our test network). Combined with Apache's \emph{mod_nss} (which
-derives from mod_ssl), we were able to implement an authentication layer
+was used in our test network). Combined with Apache's \emph{mod\_nss} (which
+derives from mod\_ssl), we were able to implement an authentication layer
 over a web-based application that supported an OpenPGP smartcard.
 
 NSS also allows the same key to be used within Mozilla Thunderbird for
 email authentication. Alternatively, the OpenSC project provides an
-OpenSSL engine for PKCS#11 implementations with which we can store an X.509
+OpenSSL engine for PKCS\#11 implementations with which we can store an X.509
 client certificate on the smartcard itself.
 
 Given the wide variety of
@@ -731,6 +732,7 @@ static password feature within a company and draw some conclusions about the
 different password alternatives and their use in the enterprise.
 
 \chapter{Conclusions and Recommendations}
+\label{chapter:conclusion}
 
 Table~\ref{table:overview} summarises the approaches tried on our test network
 and discussed in chapter~\ref{chapter:alternatives}. In some cases, there
