@@ -523,6 +523,7 @@ token and our focus is primarily on evaluating a small, but diverse, set
 of password alternatives.
 
 \section{OTP Mobile Apps}
+\label{sec:otp}
 
 The chosen OTP system was the OATH Toolkit and specifically its
 module for the Unix Pluggable Authentication Module (PAM) system
@@ -649,11 +650,73 @@ derives from mod_ssl), we were able to implement an authentication layer
 over a web-based application that supported an OpenPGP smartcard.
 
 NSS also allows the same key to be used within Mozilla Thunderbird for
-email authentication
+email authentication. Alternatively, the OpenSC project provides an
+OpenSSL engine for PKCS#11 implementations with which we can store an X.509
+client certificate on the smartcard itself.
+
+Given the wide variety of
+options for integrating with services such as email, we did not go as far
+as to evaluate them all and a thorough examination of a smartcard-based,
+enterprise computer network is a subject for further research. The most
+subtantial work in this area (that we know of) is from \cite{grossesecuring}.
+This research compares different smartcard technologies and software projects
+and evaluates them for functionality that overlaps with the enterprise
+requirements we are following in this paper. The information seems to be
+quite dated now, 8 years later, as we have mentioned projects in this
+section that cover functionality claimed not to exist -- especially for OpenPGP
+cards.
 
 \section{YubiKey}
 
+The YubiKey \parencite{merkel2009yubikey} is a hardware device
+manufactured by Yubico that supports TOTP, HOTP, storing a static password and
+a challenge-response mechanism. Yubico provide a substantial amount of
+open source tooling and form enterprise partnerships to support a wide
+range of applications.
+
+In our test network, we were able to make the YubiKey serve the functionality
+of \texttt{pam\_oath} by using as an OTP token. This opens up the possibility
+of providing a YubiKey to employees, but also allowing use of mobile apps
+such as Google Authenticator if the key is not available (or simply increase
+usability by giving users the choice). This might be a crucial option to
+allow users to login in to a self-service application with which they can
+report their YubiKey as lost/stolen and de-associate it with their user
+account.
+
+This also means all the benefits of OTP tokens as outlined in
+section~\ref{sec:otp} apply also to the YubiKey. An additional benefit,
+however, is that the YubiKey has a button on the device that types the
+one-time password for the user, which allows not only for more secure tokens,
+but also increases the overhead of the login process. The YubiKey achieves
+this by acting as a USB keyboard during this operation.
+
+Further to this, Yubico provide their own PAM module that has a challenge-response
+mode that can automatically detect if the user's YubiKey is plugged in
+and log the user in without any interaction. This means the YubiKey provides
+the functionality of \texttt{pam\_usb} as well.
+
+A drawback is that the YubiKey lacks additional storage for other certificates
+or keys (as is the case with a USB storage device or an OpenPGP smartcard). This
+makes it difficult to forward the authentication to remote systems. Yubico
+produce the more expensive YubiKey Neo which supports OpenPGP and acts as
+a smartcard. We did not evaluate this model in our test network.
+
+Perhaps the most promising feature of the YubiKey for business use is the
+ability to store a static password as well as the functionality above. A
+managed distrubution of YubiKey hardward to employees within an organisation
+could involve setting up each key with a strong, static password. The users
+would not need to memorise the password, but it could be used as part of
+a shared-credentials setup (e.g. LDAP directory service already established
+within the organisation) without any significant changes to the technology
+used.
+
+In chapter~\ref{chapter:conclusion}, we explore the implication of the
+static password feature within a company and draw some conclusions about the
+different password alternatives and their use in the enterprise.
+
 \chapter{Conclusions and Recommendations}
+
+
 
 \chapter{Further Work}
 
