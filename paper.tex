@@ -470,16 +470,13 @@ classes of services that may be used by businesses.
 The requirements for our toy/proof-of-concept systems were:
 
 \begin{itemize}
-  \item users can sign into desktop machines using the authentication method
+  \item \textbf{Desktop Login}: users can sign into desktop machines using the authentication method
     being evaluated;
-  \item users can then access their corporate email without needing additionally
+  \item \textbf{Company Email}: users can then access their corporate email without needing additionally
     supplying a password to do so;
-  \item users are able to sign in to a dummy web service (a simple static page
+  \item \textbf{Web Login}: users are able to sign in to a dummy web service (a simple static page
     behind an authentication layer was used);
-  \item services should be able to acquire information about a user for
-    authorisation purposes (e.g. determining a user's department from
-    a corporate user directory service); and
-  \item users should be able to do remote SSH login to development Unix
+  \item \textbf{SSH Login}: users should be able to do remote SSH login to development Unix
     servers (this assumes a company where this is a common work task, e.g.
     software development, which is including to exercise the authentication
     further rather than to act as a typical business use case).
@@ -554,7 +551,18 @@ this in the past with NTLM -- which is possible to configure
 also on Unix systems with Winbind -- but that is largely
 regarded as an insecure mechanism today.
 
-Some desktop environments (e.g. Gnome, Mac OS X, etc.) provide
+LinOTP also provides centralised web-based identity approaches
+such as OpenID and SAML. A company-wide identity provider would
+not only allow Single Sign-On within a series of web-based
+internal applications, but opens up the possibility of employees
+being able to use their company identity elsewhere. One example
+is if the company wishes to purchase access to online resources
+(online books, journals or any other cloud-based service), they
+could make agreement with the provider to allow employees to log in
+via OpenID or SAML. Universities already use this model for access to online
+journals and academic materials.
+
+Some desktop environments (e.g. Gnome, Mac OS X) provide
 a local keychain that can store SSH keys, SSL certificates, etc.
 which are unlocked whilst the user is logged in, but inaccessible
 otherwise. This already provides a convenience desktop
@@ -695,6 +703,14 @@ mode that can automatically detect if the user's YubiKey is plugged in
 and log the user in without any interaction. This means the YubiKey provides
 the functionality of \texttt{pam\_usb} as well.
 
+An Apache module is also available
+for both the Yubikey and also generic OTP logins. Whilst having multiple
+login points all asking for a new OTP would be an inconvenience when using a mobile
+app, this is less of a problem for the YubiKey where the user needs only press
+a single button each time. This might allow for internal applications each to
+implement their own OTP support and for them to be managed separately, whereas
+the OTP mobile app approach would be better with true Single Sign-On.
+
 A drawback is that the YubiKey lacks additional storage for other certificates
 or keys (as is the case with a USB storage device or an OpenPGP smartcard). This
 makes it difficult to forward the authentication to remote systems. Yubico
@@ -716,9 +732,98 @@ different password alternatives and their use in the enterprise.
 
 \chapter{Conclusions and Recommendations}
 
+Table~\ref{table:overview} summarises the approaches tried on our test network
+and discussed in chapter~\ref{chapter:alternatives}. In some cases, there
+are a few alternatives listed where some aspects of more than one approach
+were explored. These are by no means a definitive list of all options available
+to individuals and organisations and some of the technologies and systems
+not evaluated thoroughly are mentioned in passing throughout
+chapter~\ref{chapter:alternatives}.
 
+\begin{table}[h]
+  \begin{tabular}{|l|l|l|l|l|} \hline
+                            & \textbf{OTP Apps} & \textbf{pam\_usb} & \textbf{OpenPGP smartcard} & \textbf{YubiKey} \\ \hline
+    \textbf{Desktop Login}  & pam\_oath        & pam\_usb                    & pam\_poldi & pam\_oath, pam\_yubico  \\ \hline
+    \textbf{Company Email}  & LinOTP + Kerberos & X.509 certificate on device & Scute      & LinOTP + Kerberos, static password + OpenLDAP   \\ \hline
+    \textbf{Web Login}      & OpenID, SAML     & X.509 certificate on device & Scute      & Apache YubiKey/OTP modules, static password + OpenLDAP  \\ \hline
+    \textbf{SSH Login}      & Gnome keyring    & SSH key stored on device    & gpg-agent  &  \\ \hline
+  \end{tabular}
+  \label{table:overview}
+\end{table}
+
+Overall, YubiKeys seem to provide the best balance between application support,
+usability and compatibility. OpenPGP and other smartcards are perhaps also
+a good approach where security is of greater concern and there is some appeal
+in terms of usability given users are already used to keeping credit cards
+safe and protecting them with short PINs. Their requirement for specialised
+card readers and the fact it is still best practice to protect them with memorised
+information means significant monetary and effort costs that may be acceptable
+to trade off for the additional security, but this must be considered.
+
+LinOTP is a promising enterprise solution that is compatible with Windows
+domain setups common in a lot of companies. it appears to provide the most
+flexibility in terms of application support.
+
+Perhaps the most important YubiKey feature in practical terms is the ability
+to store a static password alongside its OTP behaviour. This enables its
+use in \emph{existing} corporate networks where users have a single username-password
+pair and all systems authenticate against a directory service such as Active Directory
+or OpenLDAP. To set this up, security departments need only include synchronsing
+users' passwords to their YubiKeys as part of account creation. Users' passwords
+can thus become much stronger and more random without the risk of forgetting or
+users resorting to writing them down.
+
+The static password feature is entirely compatible with every system that already
+supports password authentication, so the only additional costs are purchasing
+the hardware and ensuring users are given quick replacements with new passwords
+when they report their existing key lost or stolen. Users are more aware of the
+need to report lost or stolen physical items (company ID card, house keys, credit cards, etc.)
+whereas the evidence in the literature around passwords suggests users disclose
+passwords far more readily (whether deliberately or inadvertantly).
+
+Thus we can recommend coporations are able to evaluate the hardware costs
+and consider YubiKeys as a ``drop in'' replacement for users memorising
+passwords with few infrastructure changes. This strategy even lends itself
+to the possiblity of being run as a trial with one team or department. Over time,
+more structural changes such as introducing LinOTP could be considered to
+reap some of the benefits OTP and challenge-response bring (e.g. protection
+from replay attacks, reduced exposure to brute-force guessing).
+
+It may be possible to run the static password trial alongside introducing OTP
+for some applications only. The YubiKey supports generating either token
+by using a short versus a long button press, but the usability of that has
+not been demonstrated.
 
 \chapter{Further Work}
+
+The following questions are open and are possibilities for further research:
+
+\begin{itemize}
+\item What is the effectiveness and what potential issues are there around
+  a real deployment of LinOTP within a business? An empirical study in a
+  real world setting would give some valuable insights.
+\item What is the best approach (if any) to storing keys and certificates on
+  a USB device, keeping them secure and allowing them to be used in onward,
+  automatic authentication against other services after login? Can a user's
+  own USB storage device (already commonplace in many offices) be thus set
+  up as an authentication token without the need for specialist hardware
+  such as YubiKeys?
+\item Today, how easily can an IT or security department set up users with
+  smartcards to provide a Single Sign-On experience across all company
+  systems? A real world case study would be really useful to bring together
+  all the individual projects' documentation and prove an end-to-end deployment
+  of them.
+\item Are users happy to treat smartcards such as OpenPGP cards within the
+  same guidelines already followed for credit cards?
+  \item What real world case studies exist for enterprise deployments of YubiKeys?
+    Yubico claim multiple corporate customers on their website, but have any
+    been studied in the academic literature?
+\item Many of the mechanisms discussed are seeing large-scale
+  adoption as a second factor in addition to passwords. However, What are the
+  security implications of relying on any password alternative as a single factor?
+  Do any of them end up being more vulnerable than a traditional, memorised
+  password when used in isolation?
+\end{itemize}
 
 \printbibliography
 
