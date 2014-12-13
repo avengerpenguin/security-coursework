@@ -15,7 +15,6 @@
 \chapter{Introduction}
 
 The use of passwords for authentication is certainly commonplace.
-% TODO: How many passwords?
 It is standard practice within small and large enterprises alike
 to require employees to authenticate before using desktop
 computers, mobile devices or centralised services (e.g.
@@ -141,8 +140,6 @@ user base such as employees or indeed the general public, but
 a strong need for true change can be taken from the analogy
 at least.
 
-%TODO: something about the large list of password rules
-
 Additionally, SOMEONE explored economic arguments and models
 to argue that the incredibly low, \emph{a priori} likelihood
 of a user's account being compromised leads to a monetary
@@ -214,11 +211,6 @@ by authentication) or \emph{offline} (where an attacker has a local copy of
 an encrypted file or hashed password, to which she can perform an unlimited
 number of attempts at cracking the password without arousing suspicion).
 
-Information Theory and entropy can allow us to gauge a password's strength
-in terms of \emph{bits}, which gives us an estimate of the likelihood of
-an attacker guessing the password in one attempt. Passwords which are
-more unlikely to guess have more bits and are thus consider stronger passwords.
-
 The advice for creating strong passwords normally takes the form of tips
 such as:
 
@@ -229,35 +221,16 @@ such as:
   \item include numbers and other non-alphanumeric characters.
 \end{itemize}
 
-\cite{kaufman2002network} facetiously claimed that humans are poor
-at memorising strong passwords/keys:
-
-\begin{quotation}
-  \emph{
-  Humans are incapable of securely storing high-quality
-  cryptographic keys, and they have unacceptable speed and
-  accuracy when performing cryptographic operations. (They are
-  also large, expensive to maintain, difficult to manage, and they
-  pollute the environment. It is astonishing that these devices
-  continue to be manufactured and deployed. But they are
-  sufficiently pervasive that we must design our protocols around
-  their limitations.)
-  }
-\end{quotation}
-
 This presents a problem if users are poor at working with the
 very kind of passwords needed to avoid brute-force cracking. It
 would suggest that a user-centric design would lead to something
 more in line with abilities humans \emph{do} have.
 
-% TODO: many = who?
-Futhermore, many have noted that strong passwords defend
-against \emph{only} that single attack vector. Learning the
-password within guessing (e.g. via phishing) will put strong
-passwords in the hands of attackers just as easily as with
-weak passwords. Also, different classes of attacks entirely
-such as installing keyloggers via malware or hijacking browser
-sessions are unaffected by password strength.
+\cite{florencio2007large} noted that strong passwords are just
+as easily stolen through phishing and key logging as weak
+passwords. Password strength is thus limited in only protecting
+brute force attacks and not problems where users accidentally
+or deliberately disclose their password.
 
 It should also be noted that password strength is
 used mainly to prevent
@@ -268,15 +241,14 @@ password guesses are made. This effectively negates any
 \emph{online} brute force attack against even a very weak
 password.
 
-%TODO: who?
-Some have thus questioned whether the benefits from strong
-passwords are as substantial as standard security advice
-would suggest. However, this is perhaps still a concern
-for an organisation as it likely does not want to suffer
+The real concern for an organisation
+is that it likely does not want to suffer
 a breach in an account that had a weak password. Some
 online brute force attacks have been known to take place
 where the attackers enumerate over all known user accounts
-using a set of common or weak passwords. This increases
+using a set of common or weak passwords -- sometimes known
+as a \emph{reverse brute force} attack \parencite{khan2010comparative}.
+This increases
 the probability that they gain access to at least one
 account, which may be more useful than targeting a single
 account.
