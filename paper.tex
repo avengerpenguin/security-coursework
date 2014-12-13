@@ -175,6 +175,20 @@ where economic incentives lead to an equilibrium where
 organisations spend exactly as much on security as
 is rationally justified by their real risks and costs.
 
+\cite{beautement2009compliance} introduce the idea of a
+``compliance budget'' which models how users perceive these costs
+and benefits. Their work suggests a cap on the effectiveness of any
+security measures within an organisation, but also introduces management
+approaches to raise the threshold above which a user will no longer
+comply with security policies. This arguably increases the cost-benefit
+ratio by making it more worthwhile for users to practice secure
+behaviour (even if by increasing sanctions such that avoidance thereof becomes
+more beneficial than working around costs from complying with security
+requirements). They still admit there is a finite limit to improvements to
+this compliance budget through management, training and cultural changes.
+This supports the idea that many of the costs simply must be moved to the
+organisation itself.
+
 So, what is the nature of the burden experienced by users?
 In the next few sections, we look at various aspects
 of password security, how users are normally advised
@@ -599,29 +613,43 @@ whether the risks of doing so are too high.
 
 \section{PKI Tokens and Smartcards}
 
-Our test desktop machine was configured to accepted login
-with a smartcard reader and an OpenPGP smartcard
-\parencite{pietig2009functional}. The OpenPGP card integrates
-with GnuPG to provide a public-private key pair that can
-be used for encryption.
+Our test desktop machine was configured to accepted login with a smartcard
+reader and an OpenPGP smartcard \parencite{pietig2009functional}. The OpenPGP
+card integrates with GnuPG to provide a public-private key pair that can
+be used for encryption. For desktop login, we were able to use the ``Poldi''
+PAM module.
 
-GnuPG has a gpg-agent service that allows these keys to
-be used for SSH authentication as well, which can provide
-a Single Sign-On experience betweeen logging in to a local
-desktop and connecting out to remote servers.
+GnuPG has a gpg-agent service that allows these keys to be used for SSH
+authentication as well, which can provide a Single Sign-On experience
+between logging in to a local desktop and connecting out to remote servers.
 
-For desktop login, we were able to use the ``Poldi'' PAM
-module. The use of the smartcard requires a PIN and
-the card has a lock-out after 3 incorrect tries. This is
-behaviour users can recognise from their bank smartcards
-and the lock-out feature negates the guessability of
-even a weak 4 to 6 digit PIN.
+The use of the
+smartcard requires a PIN and the card has a lock-out after 3 incorrect tries.
+This is behaviour users can recognise from their bank smartcards and the
+lock-out feature negates the guessability of even a weak 4 to 6 digit PIN.
 
 The use of a PIN does not eliminate the ``something you
 know'' factor, but a short PIN is far less of a burden
 than the requirement for users to have strong, random
 passwords. This could be a reasonable compromise for an
 enterprise given some further usability research.
+
+The difficulty of eliminating a password or PIN from the login workflow
+suggests that the PKI token or smartcard approach is more suitable for
+situations where security requirements are higher and two-factor authentication
+is preferable. The same technology is used for debit/credit card transactions
+and for withdrawing cash from a bank account and thus we would expect it
+to be used in other organisations that have similar security requirements.
+
+The \emph{Scute} project provides a PKCS~\#11 module that allows an OpenPGP
+smartcard to be used with the Network Security Services (NSS) within
+the Firefox web browser (we believe Chrome also supports this, but Firefox
+was used in our test network). Combined with Apache's \emph{mod_nss} (which
+derives from mod_ssl), we were able to implement an authentication layer
+over a web-based application that supported an OpenPGP smartcard.
+
+NSS also allows the same key to be used within Mozilla Thunderbird for
+email authentication
 
 \section{YubiKey}
 
