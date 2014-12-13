@@ -118,15 +118,6 @@ is that any security approaches need to be designed in
 a user-centric way not just to increase usability, but to
 reduce the likelihood of compromises as well.
 
-Their work is still widely cited 15 years later, but
-today, employees are increasingly using passwords in their
-workplace in addition to a plethora of passwords for
-other services used personally outside of work.
-A user-centric design
-approach to a modern, enterprise security setup needs to
-be even more sympathetic to the large burden on users
-from managing so many online accounts.
-
 \cite{herley2009so} argues that users rationally reject costs
 placed upon them from security policies. He invokes Kuhn's
 ``Paradigm Shift''\parencite{kuhn1962structure} to suggest
@@ -140,7 +131,8 @@ user base such as employees or indeed the general public, but
 a strong need for true change can be taken from the analogy
 at least.
 
-Additionally, SOMEONE explored economic arguments and models
+Additionally, Herley explored economic arguments
+and models
 to argue that the incredibly low, \emph{a priori} likelihood
 of a user's account being compromised leads to a monetary
 cost value far lower than that needed to justify a user
@@ -151,15 +143,15 @@ as higher risk and bigger targets for attackers. An attack
 on a corporate account might allow access to systems that
 can lead to real economic or reputational damage.
 
-We can argue that these costs -- even if higher than those
-in SOMEONE's models -- are mainly suffered by the \emph{organisation}
-more than the employees. This is very similar to SOMEONE's
+We can argue that these costs
+are mainly suffered by the \emph{organisation}
+more than the employees. This is very similar Herley's
 arguments that even in the case of banks, they are likely
 to take on the costs of fraud and prevent their customers
 from exposure to those costs themselves.
 
 This effect is classed
-by SOMEONE as a negative externality on computer users in
+by Herley as a negative externality on computer users in
 that they are taking on additional effort to cover costs
 that are not their own. These economic arguments can be
 used to make a case for organisations taking more
@@ -172,7 +164,7 @@ where economic incentives lead to an equilibrium where
 organisations spend exactly as much on security as
 is rationally justified by their real risks and costs.
 
-\cite{beautement2009compliance} introduce the idea of a
+\cite{beautement2009compliance} introduced the idea of a
 ``compliance budget'' which models how users perceive these costs
 and benefits. Their work suggests a cap on the effectiveness of any
 security measures within an organisation, but also introduces management
@@ -195,7 +187,7 @@ and critically examine the effectiveness of that advice.
 \label{sec:strength}
 
 Password-protected accounts are vunerable to at least three
-classes of attack\parencite{florencio2014password}:
+classes of attack \parencite{florencio2014password}:
 
 \begin{itemize}
   \item Malware infection or other direct compromise of the client machine (e.g. keyloggers)
@@ -226,7 +218,7 @@ very kind of passwords needed to avoid brute-force cracking. It
 would suggest that a user-centric design would lead to something
 more in line with abilities humans \emph{do} have.
 
-\cite{florencio2007large} noted that strong passwords are just
+\textcite{florencio2007large} noted that strong passwords are just
 as easily stolen through phishing and key logging as weak
 passwords. Password strength is thus limited in only protecting
 brute force attacks and not problems where users accidentally
@@ -273,7 +265,7 @@ Another, softer approach is to attempt to educate users
 on choosing strong, yet memorable, passwords. This belief
 that weak passwords are always down to lack of training
 is fundementally challenged in the influential findings
-of \cite{adams1999users}. Their work combined with the
+of \textcite{adams1999users}. Their work combined with the
 economics-based arguments and models introduced by %WHO?
 builds a large weight of evidence that well-informed
 users will still not follow much security advice
@@ -302,13 +294,13 @@ implement a password expiration policy whereby the
 authentication systems will require a user to change their
 password after some defined period of time.
 
-\cite{adams1999users} note that password expiry increases
+\textcite{adams1999users} note that password expiry increases
 the burden on users having to memorise multiple passwords and that
 50\% of users in their study wrote passwords down, with one
 person citing a monthly password expiration policy as the cause
 of having to do so.
 
-\cite{zhang2010security} go further to demonstrate the ease of
+\textcite{zhang2010security} go further to demonstrate the ease of
 algorithmically predicting a user's new password when the old,
 expired password is known. They assert that password expiration
 is weak at achieving the intent behind its implementation and
@@ -322,7 +314,7 @@ be an unreasonable burden on users\parencite{florencio2014password}
 and is thus an unrealistic expectation for an organisation or online
 service.
 
-\cite{preibusch2010password} showed how the pressure to reuse passwords
+\textcite{preibusch2010password} showed how the pressure to reuse passwords
 presents negative externalities from security-indifferent websites upon
 security-concerned websites. This presents an organisation with
 security risks stemming solely from the existence of other, less
@@ -395,7 +387,7 @@ would advise always doing so as part of a design that considers the users,
 models their use cases and ensures that the approach is indeed increasing
 security more than it is just moving the costs onto the users.
 
-\cite{van2011tiqr} introduced a new alternative authentication mechanism
+\textcite{van2011tiqr} introduced a new alternative authentication mechanism
 called \emph{tiqr} that uses QR codes and a bespoke smartphone app. In
 doing so, he also listed and evaluated a number of existing alternatives. We
 can thus make a working list of existing non-password authentication
@@ -639,7 +631,7 @@ Given the wide variety of
 options for integrating with services such as email, we did not go as far
 as to evaluate them all and a thorough examination of a smartcard-based,
 enterprise computer network is a subject for further research. The most
-subtantial work in this area (that we know of) is from \cite{grossesecuring}.
+subtantial work in this area (that we know of) is from \textcite{grossesecuring}.
 This research compares different smartcard technologies and software projects
 and evaluates them for functionality that overlaps with the enterprise
 requirements we are following in this paper. The information seems to be
