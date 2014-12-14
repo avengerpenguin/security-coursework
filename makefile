@@ -1,4 +1,5 @@
-.DEFAULT_GOAL := paper.pdf
+.DEFAULT_GOAL := pdf
+.PHONY = clean pdf
 
 LATEX	= pdflatex -shell-escape
 BIBTEX	= bibtex
@@ -29,8 +30,16 @@ endef
 clean:
 	-rm -f $(PDF) $(PDF:%.pdf=%.aux) $(PDF:%.pdf=%.bbl) $(PDF:%.pdf=%.blg) $(PDF:%.pdf=%.log) $(PDF:%.pdf=%.out) $(PDF:%.pdf=%.idx) $(PDF:%.pdf=%.ilg) $(PDF:%.pdf=%.ind) $(PDF:%.pdf=%.toc) $(PDF:%.pdf=%.d)
 
+pdf: paper.pdf logbook.pdf
+
 paper.pdf: paper.tex references.bib
 	pdflatex paper
 	biber paper
 	pdflatex paper
 	pdflatex paper
+
+logbook.pdf: logbook.tex references.bib
+	pdflatex logbook
+	biber logbook
+	pdflatex logbook
+	pdflatex logbook

@@ -1,6 +1,18 @@
 \documentclass{report}
 
+\usepackage{listings}
 \usepackage[style=authoryear,backend=biber]{biblatex}
+
+
+\lstset{ %
+  basicstyle=\footnotesize,
+  breakatwhitespace=true,
+  breaklines=true,
+  extendedchars=true,
+  frame=single,
+  showspaces=false,
+  showstringspaces=false
+}
 
 \title{The Folly of Passwords}
 \author{Ross Fenning}
@@ -14,40 +26,45 @@
 
 \chapter{Wireshark Analysis}
 
-\chapter{GNU Privacy Guard (GPG)}
+\chapter{GNU Privacy Guard}
 
-In this report, we look at how to set up GPG on a Debian or Ubuntu GNU/Linux
+In this report, we look at how to set up GNU Privacy Guard (GPG)
+on a Debian or Ubuntu GNU/Linux
 system although many of the steps apply to other Linux and Unix systems.
 
 The steps outlined below will demonstrate how to:
 
 \begin{enumerate}
 \item generate a new private/public GPG key pair;
-\item use the public key to encrypt a plain text message;
-\item use the private key to descrypt the message; and
-\item have a someone sign your new to verify that you own it.
+\item have a someone sign your new public key to verify that you own it;
+\item use the public key to encrypt a plain text message; and
+\item use the private key to descrypt the message.
 \end{enumerate}
 
 \section{Creating a GPG key pair}
 
-The gpg tool is normally pre-installed in a lot of Linux/Unix systems. On
+The gpg tool is normally pre-installed in a lot of Linux/Unix systems as
+tools like \texttt{apt} depends on it. On
 a Debian or Ubuntu GNU/Linux system that does not have it installed, it
 can be installed quite simply with:
 
-\begin{listing}
-\$ sudo aptitude install gpg
-\end{listing}
+\begin{lstlisting}[language=bash]
+$ sudo apt-get install gnupg
+[...]
+$
+\end{lstlisting}
 
 We can run the command to see there are no keys already generated:
 
-\begin{listing}
-  \$ gpg --list-keys
-  gpg: directory `/home/ross/.gnupg' created
-  gpg: new configuration file `/home/ross/.gnupg/gpg.conf' created
-  gpg: WARNING: options in `/home/ross/.gnupg/gpg.conf' are not yet active during this run
-  gpg: keyring `/home/ross/.gnupg/pubring.gpg' created
-  gpg: /home/ross/.gnupg/trustdb.gpg: trustdb created
-\end{listing}
+\begin{lstlisting}[language=bash]
+$ gpg --list-keys
+gpg: directory `/home/ross/.gnupg' created
+gpg: new configuration file `/home/ross/.gnupg/gpg.conf' created
+gpg: WARNING: options in `/home/ross/.gnupg/gpg.conf' are not yet active during this run
+gpg: keyring `/home/ross/.gnupg/pubring.gpg' created
+gpg: /home/ross/.gnupg/trustdb.gpg: trustdb created
+$
+\end{lstlisting}
 
 Note that on the first use of the command, it creates some configuration files
 and keyrings. If there are any keys already stored in the user's home
@@ -55,7 +72,7 @@ directory, then details of them would be printed out as well.
 
 To create a key, we simply need to run:
 
-\begin{listing}
+\begin{lstlisting}[language=bash]
 $ gpg --gen-key
 gpg (GnuPG) 1.4.12; Copyright (C) 2012 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
@@ -92,20 +109,246 @@ You selected this USER-ID:
 
 Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
 You need a Passphrase to protect your secret key.
+[...]
+gpg: key B8D85C76 marked as ultimately trusted
+public and secret key created and signed.
 
-We need to generate a lot of random bytes. It is a good idea to perform
-some other action (type on the keyboard, move the mouse, utilize the
-disks) during the prime generation; this gives the random number
-generator a better chance to gain enough entropy.
-\end{listing}
+gpg: checking the trustdb
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+pub   4096R/B8D85C76 2014-12-14
+      Key fingerprint = BDFD 1EF9 9052 4326 BA89  3897 30BC 9067 B8D8 5C76
+uid                  Ross Fenning <gpg@rossfenning.co.uk>
+sub   4096R/CEEFF134 2014-12-14
+$
+\end{lstlisting}
 
+After answering all the questions and providing a passphrase,
+you may be asked to generate some entropy.
+Machines had a hard time using a good source of randomness to make sure
+the key is not predictable and guessable, so you may be required to do
+some work via keystrokes, mouse movements or run some processes that
+do disk activity. Once this is complete, you will have your public and
+private key pair.
+
+To see the public key, enter:
+
+\begin{lstlisting}[language=bash]
+$ gpg --list-keys
+/home/ross/.gnupg/pubring.gpg
+-----------------------------
+pub   4096R/B8D85C76 2014-12-14
+uid                  Ross Fenning <gpg@rossfenning.co.uk>
+sub   4096R/CEEFF134 2014-12-14
+$
+\end{lstlisting}
+
+\noindent and to see the corresponding private key:
+
+\begin{lstlisting}[language=bash]
+$ gpg --list-secret-keys
+/home/ross/.gnupg/secring.gpg
+-----------------------------
+sec   4096R/B8D85C76 2014-12-14
+uid                  Ross Fenning <gpg@rossfenning.co.uk>
+ssb   4096R/CEEFF134 2014-12-14
+$
+\end{lstlisting}
+
+Note that the IDs (in our case B8D85C76) match on both the public
+and private keys, which indicates they are a complementing pair.
+
+\section{Distributing the public key}
+
+After we have successfully created our key pair, we need to send
+out our public key to people we know so that they may send
+encrypted files or messages that only we can decrypt.
+
+To export a public key into a file, do the following:
+
+\begin{lstlisting}[language=bash]
+$ gpg --output mypublickey.gpg --export B8D85C76
+$
+\end{lstlisting}
+
+This creates a file called \texttt{mypublickey.gpg} which contains
+a binary format of the key. This is suitable for sending as a file
+(e.g. SCP, FTP or email attachment). Sometimes it may be more
+convenient to export the key in ASCII for ease of pasting into emails
+or instant messaging chats. To do this, we need to \emph{ASCII-armor}
+the key thus:
+
+\begin{lstlisting}[language=bash]
+$ gpg --armor --export B8D85C76
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+[...]
+-----END PGP PUBLIC KEY BLOCK-----
+$
+\end{lstlisting}
+
+The output from the previous command can be copied and pasted anywhere
+you wish your key to be available. Either the binary form or the
+ASCII-armored form of the key are safe to make available publicly for
+anyone who wishes to send you encrypted messages.
+
+Another party can then simply import your key:
+
+\begin{lstlisting}[language=bash]
+$ gpg --import mypublickey.pgp
+gpg: key B8D85C76: public key "Ross Fenning <gpg@rossfenning.co.uk>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+$
+\end{lstlisting}
+
+Once someone has your public key, they should verify it to ensure
+it wasn't tampered and replaced in transit. To do this, the other
+party would check your public key's fingerprint:
+
+\begin{lstlisting}[language=bash]
+$ gpg --fingerprint B8D85C76
+pub   4096R/B8D85C76 2014-12-14
+      Key fingerprint = BDFD 1EF9 9052 4326 BA89  3897 30BC 9067 B8D8 5C76
+uid                  Ross Fenning <gpg@rossfenning.co.uk>
+sub   4096R/CEEFF134 2014-12-14
+
+$
+
+\end{lstlisting}
+
+The other person would then ask you to run the same command and confirm
+over a different channel (e.g. a telephone call) that you both see
+the same fingerprint. This is arguably the most important step to get
+right as the security GPG brings is invalidated entirely if you
+trust a key not genuinely created by it's reported owner.
+
+Now the other party is happy they have imported your public key and
+verified it is indeed your key in their possession, they are then
+able to sign it:
+
+\begin{lstlisting}[language=bash]
+$ gpg --sign-key B8D85C76
+
+pub  4096R/B8D85C76  created: 2014-12-14  expires: never       usage: SC  
+                     trust: unknown       validity: unknown
+sub  4096R/CEEFF134  created: 2014-12-14  expires: never       usage: E   
+[ unknown] (1). Ross Fenning <gpg@rossfenning.co.uk>
+
+
+pub  4096R/B8D85C76  created: 2014-12-14  expires: never       usage: SC  
+                     trust: unknown       validity: unknown
+ Primary key fingerprint: BDFD 1EF9 9052 4326 BA89  3897 30BC 9067 B8D8 5C76
+
+     Ross Fenning <gpg@rossfenning.co.uk>
+
+Are you sure that you want to sign this key with your
+key "Other Party <other.party@example.com>" (164DFEEB)
+
+Really sign? (y/N) y
+
+You need a passphrase to unlock the secret key for
+user: "Other Party <other.party@example.com>"
+4096-bit RSA key, ID 12345678, created 2014-01-01
+
+$
+\end{lstlisting}
+
+The other party is prompted for the passphrase of \emph{their} private key
+which is then used to sign your public key within their keyring. This
+tells their system that they vouch for that key. Typically, the other
+party would then export your now-signed key again:
+
+\begin{lstlisting}[language=bash]
+$ gpg --output B8D85C76-signedby-12345678.gpg  --export B8D85C76
+$
+\end{lstlisting}
+
+\noindent so that you can then import the signed version to replace your
+unsigned one:
+
+\begin{lstlisting}[language=bash]
+$ gpg --import B8D85C76-signedby-12345678.gpg
+gpg: key B8D85C76: "Ross Fenning <gpg@rossfenning.co.uk>" 1 new signature
+gpg: Total number processed: 1
+gpg:         new signatures: 1
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+$
+\end{lstlisting}
+
+Note the ``1 new signature'' which shows your copy of your own public key
+now includes a signature by the other party verifiying that they
+believe that key is geuinely your public key. You can now export this
+version of the key to other people and they may benefit from being able
+to skip the step of verifying the fingerprint over the phone if they
+can see your key is signed by another key they already trust.
+
+This ``Web of Trust'' model is how GPG verifies identity and true ownership
+of public keys.
 
 \section{Encrypting a message}
 
+Now that the other party has a copy of your public key and they are certain
+that is really is your key, they can send encrypted files or messages to
+you that only you may see.
+
+For example, let us say they created a private message in a plain text file:
+
+\begin{lstlisting}[language=bash]
+$ echo "Hello" >secret.txt
+$ cat secret.txt 
+Hello
+\end{lstlisting}
+
+they are then able to encrypt this secret message so that only you may read it:
+
+\begin{lstlisting}[language=bash]
+$ echo "Hello" >secret.txt
+$ cat secret.txt 
+Hello
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash]
+$ gpg --recipient B8D85C76 --encrypt secret.txt
+gpg: checking the trustdb
+gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
+gpg: depth: 0  valid:   2  signed:   1  trust: 0-, 0q, 0n, 0m, 0f, 2u
+gpg: depth: 1  valid:   1  signed:   0  trust: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: next trustdb check due at 2015-04-20
+$ ls secret.txt*
+secret.txt  secret.txt.gpg
+\end{lstlisting}
+
+Now we have the original message intact, but also an encrypted form of it.
+Again, the \texttt{--armor} option would have created an ASCII form of
+the encrypted message more suitable for pasting into emails (in a file
+called secret.txt.asc).
+
 \section{Decrypting the message}
 
-\section{Signing the key}
+The other party can then send the encrypted file or paste the ASCII version into
+an email and then you can decrypt it:
 
+\begin{lstlisting}[language=bash]
+$ gpg --decrypt secret.txt.gpg
+
+You need a passphrase to unlock the secret key for
+user: "Ross Fenning <gpg@rossfenning.co.uk>"
+4096-bit RSA key, ID CEEFF134, created 2014-12-14 (main key ID B8D85C76)
+
+gpg: encrypted with 4096-bit RSA key, ID CEEFF134, created 2014-12-14
+      "Ross Fenning <gpg@rossfenning.co.uk>"
+Hello
+$
+\end{lstlisting}
+
+\noident and the ``Hello'' message is displayed. Note that you have to
+provide your passphrase, which means your private key is involved in
+decrypting the message. A malicious party would have to obtain both
+your private key and the passphrase to use it in order to read this
+encrypted message.
 
 \chapter{Ethical Hacking Lab Setup}
 
