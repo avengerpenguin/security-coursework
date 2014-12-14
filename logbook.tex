@@ -1,0 +1,112 @@
+\documentclass{report}
+
+\usepackage[style=authoryear,backend=biber]{biblatex}
+
+\title{The Folly of Passwords}
+\author{Ross Fenning}
+
+\bibliography{references}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter{Wireshark Analysis}
+
+\chapter{GNU Privacy Guard (GPG)}
+
+In this report, we look at how to set up GPG on a Debian or Ubuntu GNU/Linux
+system although many of the steps apply to other Linux and Unix systems.
+
+The steps outlined below will demonstrate how to:
+
+\begin{enumerate}
+\item generate a new private/public GPG key pair;
+\item use the public key to encrypt a plain text message;
+\item use the private key to descrypt the message; and
+\item have a someone sign your new to verify that you own it.
+\end{enumerate}
+
+\section{Creating a GPG key pair}
+
+The gpg tool is normally pre-installed in a lot of Linux/Unix systems. On
+a Debian or Ubuntu GNU/Linux system that does not have it installed, it
+can be installed quite simply with:
+
+\begin{listing}
+\$ sudo aptitude install gpg
+\end{listing}
+
+We can run the command to see there are no keys already generated:
+
+\begin{listing}
+  \$ gpg --list-keys
+  gpg: directory `/home/ross/.gnupg' created
+  gpg: new configuration file `/home/ross/.gnupg/gpg.conf' created
+  gpg: WARNING: options in `/home/ross/.gnupg/gpg.conf' are not yet active during this run
+  gpg: keyring `/home/ross/.gnupg/pubring.gpg' created
+  gpg: /home/ross/.gnupg/trustdb.gpg: trustdb created
+\end{listing}
+
+Note that on the first use of the command, it creates some configuration files
+and keyrings. If there are any keys already stored in the user's home
+directory, then details of them would be printed out as well.
+
+To create a key, we simply need to run:
+
+\begin{listing}
+$ gpg --gen-key
+gpg (GnuPG) 1.4.12; Copyright (C) 2012 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Please select what kind of key you want:
+   (1) RSA and RSA (default)
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+Your selection? 1
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (2048) 2048
+Requested keysize is 2048 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 0
+Key does not expire at all
+Is this correct? (y/N) y
+
+You need a user ID to identify your key; the software constructs the user ID
+from the Real Name, Comment and Email Address in this form:
+    "Heinrich Heine (Der Dichter) <heinrichh@duesseldorf.de>"
+
+Real name: Ross Fenning
+Email address: gpg@rossfenning.co.uk
+Comment:
+You selected this USER-ID:
+    "Ross Fenning <gpg@rossfenning.co.uk>"
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
+You need a Passphrase to protect your secret key.
+
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+\end{listing}
+
+
+\section{Encrypting a message}
+
+\section{Decrypting the message}
+
+\section{Signing the key}
+
+
+\chapter{Ethical Hacking Lab Setup}
+
+\end{document}
