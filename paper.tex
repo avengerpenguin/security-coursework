@@ -151,12 +151,11 @@ are few pressures (or even rational justification)
 for the individual users to spend their time and effort doing
 so, what can the organisation do?
 
-One classical solution to weak passwords
-has been to enforce password strength \emph{requirements}.
+Many companies enforce password strength \emph{requirements}.
 This is a technical solution whereby the systems simply
 reject self-selected user passwords that do not conform
 to a target strength or entropy.
-This is a technical solution that shifts the burden forcibly onto
+This shifts the burden forcibly onto
 users and we can argue it is susceptible to the deliberate workarounds
 that many users ultimately employ to reduce the overheads
 in performing their primary jobs.
@@ -392,10 +391,6 @@ could make agreement with the provider to allow employees to log in
 via OpenID or SAML. Universities already use this model for access to online
 journals and academic materials.
 
-There is certainly scope for further work to evaluate extensive
-use of LinOTP and Kerberos within an enterprise setting as least as
-a case study.
-
 \section{PAM USB}
 
 The \texttt{pam\_usb} module for the PAM system is similar in many
@@ -427,10 +422,6 @@ reintroduces passwords back into the user's workflow. Alternatively,
 the risks of loss could be mitigated with an effective
 key and certificate revocation process.
 
-Futher research may find a solution to storing keys
-and certificates on a USB device without passwords or highlight
-whether the risks of doing so are too high.
-
 \section{PKI Tokens and Smartcards}
 
 Our test desktop machine was configured to accepted login with a smartcard
@@ -448,13 +439,6 @@ smartcard requires a PIN and the card has a lock-out after 3 incorrect tries.
 This is behaviour users can recognise from their bank smartcards and the
 lock-out feature negates the guessability of even a weak 4 to 6 digit PIN.
 
-The difficulty of eliminating a password or PIN from the login workflow
-suggests that the PKI token or smartcard approach is more suitable for
-situations where security requirements are higher and two-factor authentication
-is preferable. The same technology is used for debit/credit card transactions
-and for withdrawing cash from a bank account and thus we would expect it
-to be used in other organisations that have similar security requirements.
-
 The \emph{Scute}\footnote{http://www.scute.org/}
 project provides a PKCS~\#11 module that allows an OpenPGP
 smartcard to be used with the Network Security Services (NSS) and
@@ -469,11 +453,11 @@ OpenSSL engine for PKCS\#11 implementations with which we can store an X.509
 client certificate on the smartcard itself.
 
 Given the wide variety of
-options for integrating with services such as email, we did not go as far
-as to evaluate them all and a thorough examination of a smartcard-based,
+options for smartcards, readers and supporting software, we were unable
+to evaluate them all and a thorough examination of a smartcard-based,
 enterprise computer network is a subject for further research. The most
 subtantial work in this area (that we know of) is from \textcite{grossesecuring}.
-This research compares different smartcard technologies and software projects
+This research compared different smartcard technologies and software projects
 and evaluates them for functionality that overlaps with the enterprise
 requirements we are following in this paper. The information seems to be
 quite dated now, 8 years later, as we have mentioned projects in this
@@ -501,8 +485,7 @@ This also means all the benefits of OTP tokens as outlined in
 section~\ref{sec:otp} apply also to the YubiKey. An additional benefit,
 however, is that the YubiKey has a button on the device that types the
 one-time password for the user, which allows not only for more secure tokens,
-but also increases the overhead of the login process. The YubiKey achieves
-this by acting as a USB keyboard during this operation.
+but also increases the overhead of the login process.
 
 Further to this, Yubico provide their own PAM module that has a challenge-response
 mode that can automatically detect if the user's YubiKey is plugged in
@@ -517,24 +500,10 @@ a single button each time. This might allow for internal applications each to
 implement their own OTP support and for them to be managed separately, whereas
 the OTP mobile app approach would be better with true Single Sign-On.
 
-A drawback is that the YubiKey lacks additional storage for other certificates
-or keys (as is the case with a USB storage device or an OpenPGP smartcard). This
-makes it difficult to forward the authentication to remote systems. Yubico
-produce the more expensive YubiKey Neo which supports OpenPGP and acts as
-a smartcard. We did not evaluate this model in our test network.
-
 Perhaps the most promising feature of the YubiKey for business use is the
-ability to store a static password as well as the functionality above. A
-managed distrubution of YubiKey hardward to employees within an organisation
-could involve setting up each key with a strong, static password. The users
-would not need to memorise the password, but it could be used as part of
-a shared-credentials setup (e.g. LDAP directory service already established
-within the organisation) without any significant changes to the technology
-used.
-
-In chapter~\ref{chapter:conclusion}, we explore the implication of the
-static password feature within a company and draw some conclusions about the
-different password alternatives and their use in the enterprise.
+ability to store a static password as well as the functionality above. This
+leads to the possibility of introducting the device in a way that is
+compatible with exist applications that require a username and password.
 
 \chapter{Conclusions and Recommendations}
 \label{chapter:conclusion}
