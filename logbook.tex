@@ -177,7 +177,7 @@ public and secret key created and signed.
 
 gpg: checking the trustdb
 gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
-gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 0  valid: 1  signed: 0  trust: 0-, 0q, 0n, 0m, 0f, 1u
 pub   4096R/B8D85C76 2014-12-14
       Key fingerprint = BDFD 1EF9 9052 4326 BA89  3897 30BC 9067 B8D8 5C76
 uid                  Ross Fenning <gpg@rossfenning.co.uk>
@@ -367,17 +367,11 @@ Hello
 \noindent they are then able to encrypt this secret message so that only you may read it:
 
 \begin{lstlisting}[language=bash]
-$ echo "Hello" >secret.txt
-$ cat secret.txt 
-Hello
-\end{lstlisting}
-
-\begin{lstlisting}[language=bash]
 $ gpg --recipient B8D85C76 --encrypt secret.txt
 gpg: checking the trustdb
 gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
-gpg: depth: 0  valid:   2  signed:   1  trust: 0-, 0q, 0n, 0m, 0f, 2u
-gpg: depth: 1  valid:   1  signed:   0  trust: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: depth: 0  valid: 2  signed: 1  trust: 0-, 0q, 0n, 0m, 0f, 2u
+gpg: depth: 1  valid: 1  signed: 0  trust: 1-, 0q, 0n, 0m, 0f, 0u
 gpg: next trustdb check due at 2015-04-20
 $ ls secret.txt*
 secret.txt  secret.txt.gpg
@@ -489,8 +483,8 @@ network:
 \begin{lstlisting}[language=bash]
 vagrant@metasploitable:~$ route
 Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-192.168.51.0    *               255.255.255.0   U     0      0        0 eth0
+Destination   Gateway  Genmask        Flags Metric Ref  Use  Iface
+192.168.51.0  *        255.255.255.0  U     0      0      0  eth0
 vagrant@metasploitable:~$
 \end{lstlisting}
 
@@ -506,6 +500,8 @@ viruses. If we are running malicious code (as opposed to simply running
 exploitable services), then we likely want to make sure the host machine
 is simply disconnected from any network and reinstall the whole host
 before it is allowed back on any public network.
+
+\printbibliography
 
 \appendix
 

@@ -368,13 +368,6 @@ app, such as Google Authenticator. Our setup was tested with both the
 command line tool from the OATH Toolkit as well as with the
 Google Authenticator Android app.
 
-The challenge here is that each user needs a unique secret which has to
-be managed on a trusted server. The secret for every employee then needs
-to be available in a configuration file on every desktop computer. This
-can be achieved with configuration management systems such as Puppet,
-Chef, Ansible, Salt, etc.
-
-Another option is to try to centralise the OTP authentication.
 Solutions such as LinOTP suggest the ability to have a centralised
 OTP-based authentication system with a custom PAM module. Combined
 with Kerberos, true Single Sign-On should then be possible
@@ -593,9 +586,9 @@ The following questions are open and are possibilities for further research:
   of them.
 \item Are users happy to treat smartcards such as OpenPGP cards within the
   same guidelines already followed for credit cards?
-  \item What real world case studies exist for enterprise deployments of YubiKeys?
-    Yubico claim multiple corporate customers on their website, but have any
-    been studied in the academic literature?
+\item What real world case studies exist for enterprise deployments of YubiKeys?
+  Yubico claim multiple corporate customers on their website, but have any
+  been studied in the academic literature?
 \item Many of the mechanisms discussed are seeing large-scale
   adoption as a second factor in addition to passwords. However, What are the
   security implications of relying on any password alternative as a single factor?
