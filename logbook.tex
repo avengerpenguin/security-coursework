@@ -45,7 +45,7 @@ IP fragmentation \parencite{postel1981rfc,fall2011tcp} is necessary if a router
 receives a packet larger than the maximum transmission unit (MTU) of the
 next hop. When this occurs, a router has the option to break the datagram
 into smaller fragments. RFC 815 \parencite{clark1982ip} describes
-some algorithms for how downstream hops can then reassemble the fragmented
+an algorithm for how downstream hops can then reassemble the fragmented
 IP packets.
 
 The Teardrop attack involves sending fragmented IP packets such that the offset
@@ -94,20 +94,19 @@ systems to crash when this overlap occurred.
 In this report, we look at how to set up GNU Privacy Guard (GPG)
 on a Debian or Ubuntu GNU/Linux
 system although many of the steps apply to other Linux and Unix systems.
-
 The steps outlined below will demonstrate how to:
 
 \begin{enumerate}
 \item generate a new private/public GPG key pair;
 \item have a someone sign your new public key to verify that you own it;
 \item use the public key to encrypt a plain text message; and
-\item use the private key to descrypt the message.
+\item use the private key to decrypt the message.
 \end{enumerate}
 
 \section{Creating a GPG key pair}
 
 The gpg tool is normally pre-installed in a lot of Linux/Unix systems as
-tools like \texttt{apt} depends on it. On
+tools like \texttt{apt} depend on it. On
 a Debian or Ubuntu GNU/Linux system that does not have it installed, it
 can be installed quite simply with:
 
@@ -130,7 +129,7 @@ $
 \end{lstlisting}
 
 Note that on the first use of the command, it creates some configuration files
-and keyrings. If there are any keys already stored in the user's home
+and keyrings. If there were any keys already stored in the user's home
 directory, then details of them would be printed out as well.
 
 To create a key, we simply need to run:
@@ -188,7 +187,7 @@ $
 
 After answering all the questions and providing a passphrase,
 you may be asked to generate some entropy.
-Machines had a hard time using a good source of randomness to make sure
+Machines have a hard time using a good source of randomness to make sure
 the key is not predictable and guessable, so you may be required to do
 some work via keystrokes, mouse movements or run some processes that
 do disk activity. Once this is complete, you will have your public and
@@ -365,7 +364,7 @@ $ cat secret.txt
 Hello
 \end{lstlisting}
 
-they are then able to encrypt this secret message so that only you may read it:
+\noindent they are then able to encrypt this secret message so that only you may read it:
 
 \begin{lstlisting}[language=bash]
 $ echo "Hello" >secret.txt
@@ -387,7 +386,7 @@ secret.txt  secret.txt.gpg
 Now we have the original message intact, but also an encrypted form of it.
 Again, the \texttt{--armor} option would have created an ASCII form of
 the encrypted message more suitable for pasting into emails (in a file
-called secret.txt.asc).
+called \texttt{secret.txt.asc}).
 
 \section{Decrypting the message}
 
@@ -413,8 +412,100 @@ decrypting the message. A malicious party would have to obtain both
 your private key and the passphrase to use it in order to read this
 encrypted message.
 
-\chapter{Ethical Hacking Lab Setup}
+\chapter{Ethical Cracking Lab Setup}
 
+In this report, we look at some tools that can be used to put together
+a small lab setup for practising computer cracking and penetration
+testing. This setup could also be used to observe and trace behaviours
+of malware, e.g. viruses, but perhaps with a more stringent approach
+to network isolation (see section~\ref{sec:netsec}).
+
+The setup here is a network of virtual machines running under Virtualbox
+running on a host computer that can be isolated if necessary. Once the
+setup has been designed, we will look at using Vagrant to make a repeatable
+way of bootstrapping the lab on demand. This will help if we ever feel the
+need to tear down the entire setup and start afresh or to share the
+configuration with other researchers.
+
+\section{Kali}
+
+Kali is a GNU/Linux distribution based on Debian that comes with hundreds
+of tools preinstalled that can be used in cracking and penetration testing. It
+is available to download as an ISO CD image file which can easily be used
+to install in a virtual machine using Virtualbox.
+
+The Vagrantfile configuration in appendix~\ref{appendix:vagrant} shows a
+simple provision of a Virtualbox instance of Kali from a pre-built
+Vagrant box for convenience. For more control or more assurance about the
+security of the virtual machine, it should be possible to fork and customise
+the Packer build that created this image.\footnote{https://github.com/ctarwater/packer-kali}
+
+\section{Metasploitable}
+
+Metasploitable is a pre-built virtual machine from Rapid 7 to aid with learning
+its penetration testing tool, Metasploit. We can equally make use of this
+for learning Kali. As with Kali, we can add a configuration to our Vagrantfile
+(appendix~\ref{appendix:vagrant}) for a pre-built box for convenience. Other
+Packer-based builds are available on Github\footnote{https://github.com/waratek/vagrant-boxes}
+if it is again preferred to have more control over the build.
+
+\section{Vagrant}
+
+As discussed in the previous two sections, vagrant provides us two conveniences
+in building our lab setup:
+
+\begin{enumerate}
+\item Repeatable, refreshable and shareable builds of our whole lap setup. A whole classroom
+  of lab setups for teaching could be running within an hour.
+\item The ability to use pre-built box images, at least in the first instance, to get set up
+  quickly, but still migrate to in-house builds of those images when the time is right.
+\end{enumerate}
+
+We can configure vagrant with the \emph{Vagrantfile} shown in appendix~\ref{appendix:vagrant},
+which is a reasonably trivial configuration to bootstrap both Kali and Metasploitable on
+the same private network. Note that the GUI is enabled so we can log in to X or a TTY
+on either machine, which is required because the NAT adapter is overridden such that the
+machines cannot communicate with the outside world. A side-effect of this is that
+vagrant is unable to configure the network interfaces on the guest machines automatically
+for us and we must edit \texttt{/etc/network/interfaces} ourselves, e.g.:
+
+\begin{lstlisting}
+iface eth0 inet static
+    address 192.168.51.5
+    netmask 255.255.255.0
+\end{lstlisting}
+
+The reasoning around this is discussed in section~\ref{sec:netsec}.
+
+\section{Network Security}
+\label{sec:netsec}
+
+By overriding the NAT interface vagrant wants to use, we can enforce that
+our lab network is only using a host-based adapter on a private network such
+that the guests do not even have a gateway to the outside world. We can see
+on the routing table that the guest only knows how to talk to the private
+network:
+
+\begin{lstlisting}[language=bash]
+vagrant@metasploitable:~$ route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+192.168.51.0    *               255.255.255.0   U     0      0        0 eth0
+vagrant@metasploitable:~$
+\end{lstlisting}
+
+For further security, it may be desirable to add iptables rules on the host
+machine to drop any traffic that isn't going between the two defined
+static IPs. This is perhaps an unnecessary step if we are only using the
+penetration and exploit testing tools by hand and are in control of what
+we are doing.
+
+This lab setup can however be extended to include Windows
+machines in the Vagrantfile such that we are able to examine malware and
+viruses. If we are running malicious code (as opposed to simply running
+exploitable services), then we likely want to make sure the host machine
+is simply disconnected from any network and reinstall the whole host
+before it is allowed back on any public network.
 
 \appendix
 
@@ -424,5 +515,10 @@ encrypted message.
 \lstinputlisting[basicstyle=\scriptsize]{frame8.txt}
 \pagebreak
 \lstinputlisting[basicstyle=\scriptsize]{frame9.txt}
+
+\chapter{Ethical Cracking Lab Vagrant Configuration}
+\label{appendix:vagrant}
+
+\lstinputlisting[basicstyle=\scriptsize,language=ruby]{networks/pentest/Vagrantfile}
 
 \end{document}
