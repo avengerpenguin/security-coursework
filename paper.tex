@@ -46,30 +46,11 @@ quo unreaslistically transfers costs to employees to support gains
 for the organisations.
 
 Passwords are not the only approach to verifying a user's identity.
-The methods by which a user can be authenticated are known to fall
-into three categories -- or \emph{factors} -- of authentication
-\parencite{council2005authentication}:
-
-\begin{itemize}
-  \item something the user \emph{knows}, such as a password, a PIN or
-    personal information (e.g. mother's maiden name);
-  \item something the user \emph{has}, such as a passport, a mobile device
-    a paper ticket; and
-  \item something the user \emph{is}, such as their DNA sequence,
-    their retinal pattern, their fingerprint.
-\end{itemize}
-
-It should be noted that some methods can be argued as spanning
-over two factors. For example, a credit card is something
-a bank customer possesses, but the card number is something
-an attacker could learn without the owner losing ownership
-of the card. In the context of many online purchase, credit
-card \emph{details} arguably become something a user \emph{knows}.
-
 There
 has been a rise in two-factor authenication with companies
 such as Google, Amazon, Microsoft, Paypal and Twitter having enabled
-two-factor authentication for user accounts.
+two-factor authentication for user accounts. Examples include One-Time
+Passwords or challenge-response codes.
 
 The mainstream adoption of authentication methods other than
 passwords suggests organisations may find it easier than ever to adopt
@@ -209,11 +190,6 @@ suggests management and training only have limited effect.
 
 \section{Password Expiry}
 
-Brute-force password guessing can also be mitigated by
-users changing passwords frequently enough that attackers
-have a short window within which to guess a particular
-password.
-
 It is a fairly common practice in many organisations to
 implement a password expiration policy whereby the
 authentication systems will require a user to change their
@@ -346,11 +322,7 @@ mass storage device.
 \label{sec:evaluation}
 
 Some of the identified alternatives to password authentication were
-evaluated for use in an organisational setting. The focus of this evaluation
-was to run through the steps involved in creating a toy network of machines
-that allowed common authentication across a representative sample of
-classes of services that may be used by businesses.
-
+evaluated for use in an organisational setting.
 The requirements for our toy/proof-of-concept systems were:
 
 \begin{itemize}
@@ -362,8 +334,7 @@ The requirements for our toy/proof-of-concept systems were:
     behind an authentication layer was used);
   \item \textbf{SSH Login}: users should be able to do remote SSH login to development Unix
     servers (this assumes a company where this is a common work task, e.g.
-    software development, which is included to exercise the authentication
-    further rather than to act as a typical business use case).
+    software development)
 \end{itemize}
 
 This setup has many parallels with the needs for common credentials or
