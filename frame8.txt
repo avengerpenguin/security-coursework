@@ -1,0 +1,30 @@
+No.     Time        Source                Destination           Protocol Length Info
+      8 30.614993   10.1.1.1              129.111.30.27         IPv4     70     Fragmented IP protocol (proto=UDP 17, off=0, ID=00f2) [Reassembled in #9]
+
+Frame 8: 70 bytes on wire (560 bits), 70 bytes captured (560 bits)
+Ethernet II, Src: AddtronT_d9:7c:fd (00:40:33:d9:7c:fd), Dst: Toshiba_cf:d9:cd (00:00:39:cf:d9:cd)
+Internet Protocol Version 4, Src: 10.1.1.1 (10.1.1.1), Dst: 129.111.30.27 (129.111.30.27)
+    Version: 4
+    Header length: 20 bytes
+    Differentiated Services Field: 0x00 (DSCP 0x00: Default; ECN: 0x00: Not-ECT (Not ECN-Capable Transport))
+        0000 00.. = Differentiated Services Codepoint: Default (0x00)
+        .... ..00 = Explicit Congestion Notification: Not-ECT (Not ECN-Capable Transport) (0x00)
+    Total Length: 56
+    Identification: 0x00f2 (242)
+    Flags: 0x01 (More Fragments)
+    Fragment offset: 0
+    Time to live: 64
+    Protocol: UDP (17)
+    Header checksum: 0xaf37 [correct]
+    Source: 10.1.1.1 (10.1.1.1)
+    Destination: 129.111.30.27 (129.111.30.27)
+    [Source GeoIP: Unknown]
+    [Destination GeoIP: Unknown]
+    Reassembled IPv4 in frame: 9
+Data (36 bytes)
+
+0000  00 00 39 cf d9 cd 00 40 33 d9 7c fd 08 00 45 00   ..9....@3.|...E.
+0010  00 38 00 f2 20 00 40 11 af 37 0a 01 01 01 81 6f   .8.. .@..7.....o
+0020  1e 1b 7c ab 4e e5 00 24 00 00 00 00 00 00 00 00   ..|.N..$........
+0030  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+0040  00 00 00 00 00 00                                 ......

@@ -14,7 +14,7 @@
   showstringspaces=false
 }
 
-\title{The Folly of Passwords}
+\title{Practical Security Log Book}
 \author{Ross Fenning}
 
 \bibliography{references}
@@ -24,7 +24,70 @@
 \maketitle
 \tableofcontents
 
-\chapter{Wireshark Analysis}
+\chapter{Wireshark Analysis of a Teardrop attack}
+
+In this report, we look at a very old attack at the IP layer
+known as the \emph{Teardrop} attack which was able to crash
+Linux and Windows computers at the time of discovery.
+We also look at the protocol violation used to achieve this attack
+in the \emph{Wireshark} analysis tool.
+
+\section{What is a Teardrop attack?}
+
+The Teardrop attack \parencite{center1997cert} was discovered
+in late 1997 as a potential vulnerability in Windows 3.1x, Windows 95 and Windows NT
+systems and versions of Linux prior to versions 2.0.32 and 2.1.63.
+The vulnerability could allow a remote attacker to crash computers
+running these systems due to a bug in the code performing IP fragmentation
+reassembly.
+
+IP fragmentation \parencite{postel1981rfc,fall2011tcp} is necessary if a router
+receives a packet larger than the maximum transmission unit (MTU) of the
+next hop. When this occurs, a router has the option to break the datagram
+into smaller fragments. RFC 815 \parencite{clark1982ip} describes
+some algorithms for how downstream hops can then reassemble the fragmented
+IP packets.
+
+The Teardrop attack involves sending fragmented IP packets such that the offset
+of later packets do not correspond with the length of earlier packets. Normally,
+if the first fragment is 16 bytes in size, then the second fragment should
+indicate an offset of 16 bytes. Setting the second packet to a lower
+offset such that the packets seem to overlap was known to cause bugs in
+these old operating systems and thus they became vulnerable to the Teardrop
+attack.
+
+\section{Example}
+
+Appendix~\ref{appendix:packets} shows raw exports from Wireshark of two frames
+found in a capture of a Teardrop attack. We can see that Wireshark has identified
+frames 8 and 9 as being two IP fragments which together make up a single UDP
+packet.
+
+The IPv4 header advertises a total length for the first fragment (frame 8)
+of 56 bytes. The frame comprises 20 bytes for the IPv4 header and 36 bytes of
+data. The bytes \texttt{00 38} at offset \texttt{0010} show this header length.
+The third bit is set on the bytes \texttt{20 00}, which indicates more
+fragments are to come, but this fragment starts at offset 0 (i.e. it's the first
+fragment). This is a fairly standard initial fragment and there is nothing
+malformed in this frame.
+
+The attack comes in the next fragment (frame 9) where bytes \texttt{00 03}
+claim that this fragment has an offset of 3 eight-byte blocks, or 24 bytes.
+This is not in accord with the fact that the previous fragment was 36 bytes
+long and looks as if this fragment overlaps the previous one.
+
+Wireshark
+has reassembled this to an IPv4 packet with 28 bytes of data as it has
+resolved the malformed fragmentation by losing the last 12 bytes of the
+first fragment (i.e. scrolling back to the advertised offset of 24 and
+then adding on the 4 bytes contained in the second fragment). It has
+also identified that the resulting 28 byte payload length does not
+agree with the 36 byte header claimed in the UDP header (bytes \texttt{00 24}
+at offset \texttt{0026}) and flagged that as an error.
+
+The older versions of Windows and Linux were vulnerable to bugs in
+their fragmentation reassembly that would simply cause the operating
+systems to crash when this overlap occurred.
 
 \chapter{GNU Privacy Guard}
 
@@ -344,12 +407,22 @@ Hello
 $
 \end{lstlisting}
 
-\noident and the ``Hello'' message is displayed. Note that you have to
+\noindent and the ``Hello'' message is displayed. Note that you have to
 provide your passphrase, which means your private key is involved in
 decrypting the message. A malicious party would have to obtain both
 your private key and the passphrase to use it in order to read this
 encrypted message.
 
 \chapter{Ethical Hacking Lab Setup}
+
+
+\appendix
+
+\chapter{Teardrop Attack Packets}
+\label{appendix:packets}
+
+\lstinputlisting[basicstyle=\scriptsize]{frame8.txt}
+\pagebreak
+\lstinputlisting[basicstyle=\scriptsize]{frame9.txt}
 
 \end{document}
