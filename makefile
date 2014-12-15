@@ -37,6 +37,7 @@ paper.pdf: paper.tex references.bib
 	biber paper
 	pdflatex paper
 	pdflatex paper
+	pdflatex paper
 
 logbook.pdf: logbook.tex references.bib
 	pdflatex logbook

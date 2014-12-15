@@ -1,8 +1,9 @@
 \documentclass{report}
 
 \usepackage[style=authoryear,backend=biber]{biblatex}
+\usepackage{rotating}
 
-\title{The Folly of Passwords}
+\title{The Folly of Password Policies: The case for organisations implementing technical alternatives over trying to manage users}
 \author{Ross Fenning}
 
 \bibliography{references}
@@ -35,7 +36,7 @@ several desires:
 Additional security in any system normally comes with additional costs
 in terms of usability for users and in financial terms for the organisation
 that must implement any security processes and policies. In this paper, we
-note that these benefits are primarily for the organisation more than the
+argue that these benefits are primarily for the organisation more than the
 users, so are the usability and effort costs placed on users justifiable
 if they are to gain very little?
 
@@ -75,38 +76,20 @@ passwords suggests organisations may find it easier than ever to adopt
 means of verifying users either instead of or in addition to
 existing password setups.
 
-In chapter~\ref{chapter:alternatives}, these alternatives will be
+In chapter~\ref{chapter:alternatives}, some of these alternatives will be
 compared and assessed for their ease of adoption within a business.
 
 \chapter{The Cost of Passwords}
 \label{chapter:costs}
-
-The username-password pair is arguably a \emph{de facto} standard
-authentication mechanism employed by IT and security departments
-within many businesses. The default install of any operating
-system (Linux, Mac OS X, Windows, etc.) treats all user accounts
-as consisting minimally of these pair of credentials and a
-username-password login prompt is frequently the first
-screen to greet users when a newly-installed OS is booted
-for the first time.
 
 In this chapter, we will explore the burden passwords place
 on users, the challenges to usability they create and
 the effectiveness of standard policies and procedures
 frequently employed around password use.
 
-%Linux and Mac systems make use of the Pluggable Authentication
-%Mechanism (PAM), which weakens the assumption that authentication
-%must be done with a password (password authenication is just one
-%module available for PAM). Corporate systems typically make
-%use of centralised user directories (e.g. Active Directory, OpenLDAP),
-%which allows users to use common credentials across multiple
-%IT systems (reducing the need for users to memorise multiple
-%sets of credentials).
-
 \section{Passwords and Usability}
 
-\cite{adams1999users} famously asserted 15 years ago that security
+\textcite{adams1999users} famously asserted 15 years ago that security
 departments take an inappropriate approach to security risk
 by treating users as risk themselves to be controlled. They
 argue further that security compromises are either knowingly
@@ -116,7 +99,14 @@ is that any security approaches need to be designed in
 a user-centric way not just to increase usability, but to
 reduce the likelihood of compromises as well.
 
-\cite{herley2009so} argues that users rationally reject costs
+\textcite{beautement2009compliance} later introduced the idea of a
+``compliance budget'' which models how users perceive these costs
+Their work suggests a cap on the effectiveness of any
+security measures within an organisation and reinforce the ideas
+that users will purposefully work around requirements imposed via
+management.
+
+\textcite{herley2009so} argued that users rationally reject costs
 placed upon them from security policies. He invokes Kuhn's
 ``Paradigm Shift''\parencite{kuhn1962structure} to suggest
 that the increasing burden placed on users with every attack
@@ -126,7 +116,7 @@ how users are asked to authenticate. It is yet to be seen
 if Kuhn's observations of sudden shifts of thinking
 in the scientific community apply to a more general
 user base such as employees or indeed the general public, but
-a strong need for true change can be taken from the analogy
+a strong need for change can be taken from the analogy
 at least.
 
 Additionally, Herley explored economic arguments
@@ -148,35 +138,6 @@ arguments that even in the case of banks, they are likely
 to take on the costs of fraud and prevent their customers
 from exposure to those costs themselves.
 
-This effect is classed
-by Herley as a negative externality on computer users in
-that they are taking on additional effort to cover costs
-that are not their own. These economic arguments can be
-used to make a case for organisations taking more
-responsibility and investing more to prevent the costs
-from a security compromise. This can be combined with
-the arguments for a more user-centric design
-\parencite{adams1999users} to build a case for a new
-authentication paradigm that is low friction to users and
-where economic incentives lead to an equilibrium where
-organisations spend exactly as much on security as
-is rationally justified by their real risks and costs.
-
-\cite{beautement2009compliance} introduced the idea of a
-``compliance budget'' which models how users perceive these costs
-and benefits. Their work suggests a cap on the effectiveness of any
-security measures within an organisation, but also introduces management
-approaches to raise the threshold above which a user will no longer
-comply with security policies. This arguably increases the cost-benefit
-ratio by making it more worthwhile for users to practice secure
-behaviour (even if by increasing sanctions such that avoidance thereof becomes
-more beneficial than working around costs from complying with security
-requirements). They still admit there is a finite limit to improvements to
-this compliance budget through management, training and cultural changes.
-This supports the idea that many of the costs simply must be moved to the
-organisation itself.
-
-So, what is the nature of the burden experienced by users?
 In the next few sections, we look at various aspects
 of password security, how users are normally advised
 and critically examine the effectiveness of that advice.
@@ -195,13 +156,7 @@ classes of attack \parencite{florencio2014password}:
 
 The notion of \emph{password strength} describes how likely
 a password is to suffer from an attacker learning the password via brute-force
-guessing. A brute-force attack can be said to be \emph{online} (where the
-attacker is sending multiple login attempts directly to a system protecting
-by authentication) or \emph{offline} (where an attacker has a local copy of
-an encrypted file or hashed password, to which she can perform an unlimited
-number of attempts at cracking the password without arousing suspicion).
-
-The advice for creating strong passwords normally takes the form of tips
+guessing. The advice for creating strong passwords normally takes the form of tips
 such as:
 
 \begin{itemize}
@@ -211,14 +166,9 @@ such as:
   \item include numbers and other non-alphanumeric characters.
 \end{itemize}
 
-This presents a problem if users are poor at working with the
-very kind of passwords needed to avoid brute-force cracking. It
-would suggest that a user-centric design would lead to something
-more in line with abilities humans \emph{do} have.
-
-\textcite{florencio2007large} noted that strong passwords are just
+\textcite{florencio2007large} noted however that strong passwords are just
 as easily stolen through phishing and key logging as weak
-passwords. Password strength is thus limited in only protecting
+passwords. Password strength is thus limited in only protecting against
 brute force attacks and not problems where users accidentally
 or deliberately disclose their password.
 
@@ -233,7 +183,7 @@ password.
 
 The real concern for an organisation
 is that it likely does not want to suffer
-a breach in an account that had a weak password. Some
+a breach in any account that has a weak password. Some
 online brute force attacks have been known to take place
 where the attackers enumerate over all known user accounts
 using a set of common or weak passwords -- sometimes known
@@ -263,13 +213,9 @@ Another, softer approach is to attempt to educate users
 on choosing strong, yet memorable, passwords. This belief
 that weak passwords are always down to lack of training
 is fundementally challenged in the influential findings
-of \textcite{adams1999users}. Their work combined with the
-economics-based arguments and models introduced by %WHO?
-builds a large weight of evidence that well-informed
-users will still not follow much security advice
-(sometimes rationally so) to reduce their own costs in
-time and effort or to remove a significant barrier
-to performing their work tasks.
+of \textcite{adams1999users}. This combined with the
+compliance budget introduced by \textcite{beautement2009compliance}
+suggests management and training only have limited effect.
 
 \section{Password Expiry}
 
@@ -278,21 +224,17 @@ users changing passwords frequently enough that attackers
 have a short window within which to guess a particular
 password.
 
-As with password strength, this is only mitigating the
-brute-force guessing attack vector as phishing, keylogging, etc.
-can still give an attacker a password for a short while -- until
-the password is next changed. As with password strength, this
-is also most effective against offline brute-force attacks (e.g.
-the attacker has acquired a list of hashed passwords) an
-account locking policy also prevents an online brute-force
-attack without the need for passwords to expire.
-
 It is a fairly common practice in many organisations to
 implement a password expiration policy whereby the
 authentication systems will require a user to change their
 password after some defined period of time.
 
-\textcite{adams1999users} note that password expiry increases
+As with password strength, this is only truly mitigating the
+brute-force guessing attack vector. A password obtained via
+phishing, for example, allows an attacker enough time to do
+real damage before the next password expiration.
+
+\textcite{adams1999users} note also that password expiry increases
 the burden on users having to memorise multiple passwords and that
 50\% of users in their study wrote passwords down, with one
 person citing a monthly password expiration policy as the cause
@@ -322,7 +264,7 @@ The secret nature of passwords means an organisation cannot \emph{enforce}
 the use of unique passwords, so it must either make reuse impossible or
 reduce the impact from reuse. Businesses can make reuse impossible
 by having password strength requirements that are stronger than
-services less concerned with security, with which employeess may also have
+services less concerned with security, with which employees may also have
 accounts. This is susceptible to the issues in section~\ref{sec:strength}
 where this increases costs on users over and above than those they will
 suffer from a security breach.
@@ -342,7 +284,7 @@ In this chapter, we have built up the following claims:
   \item Strong passwords reduce guessability, but do not protect against
     many other attacks whilst adding an economically inefficient cost to users'
     time and effort.
-  \item Password expiration policies are similar in only protecting against
+  \item Password expiration policies are similar in only really protecting against
     brute-force guessing and their effectiveness is called into question when
     users use simple mutations to choose their next password.
   \item Organisations and websites do not exist in isolation, but instead in
@@ -350,14 +292,14 @@ In this chapter, we have built up the following claims:
     to reuse them to reduce the burden of memorising too many.
 \end{enumerate}
 
-In summary, the use of passwords is problematic for organisations and policies
+In summary, the use of passwords is problematic for organisations. Policies
 to reduce those problems place the costs on the wrong people: the users. We can
 make the case here for a shift away from passwords in general or at least
 for further research into user-centric designs that handle the costs of security
 rationally with suitable consideration given to usability.
 
 In chapter~\ref{chapter:alternatives}, we look at some alternatives to passwords
-and evaluate them.
+and evaluate their suitability for use in the enterprise.
 
 \chapter{Comparative Analysis of Password Alternatives}
 \label{chapter:alternatives}
@@ -380,16 +322,11 @@ people will ``work around'' the mechanisms).
 Ultimately, if we can evaluate the use of each alternative as if it were
 to be used as a single-factor, it should not prevent an organisation
 adopting the alternative alongside password authentication in principle. We
-gave some consideration for the ease of doing so in our evaluation. We also
-would advise always doing so as part of a design that considers the users,
-models their use cases and ensures that the approach is indeed increasing
-security more than it is just moving the costs onto the users.
+gave some consideration for the ease of doing so in our evaluation.
 
-\textcite{van2011tiqr} introduced a new alternative authentication mechanism
-called \emph{tiqr} that uses QR codes and a bespoke smartphone app. In
-doing so, he also listed and evaluated a number of existing alternatives. We
-can thus make a working list of existing non-password authentication
-mechanisms:
+We put together a working list of existing non-password authentication
+mechanisms from a combination of the academic literature and the open source
+developer community:
 
 \begin{itemize}
   \item OTP Apps (generating One-Time Password codes with a smartphone app, e.g.
@@ -404,29 +341,23 @@ mechanisms:
   \item Challenge/response tokens (similar to OTP tokens, but uses symmetric
     encryption to respond to challenges)
   \item TIQR (a web authenication approach that involves QR codes and a
-    bespoke smartphone app)
+    bespoke smartphone app -- \textcite{van2011tiqr})
   \item PAM USB (a module for PAM that turns any USB mass storage device
     into a physical key to unlock or lock a computer)
+  \item YubiKey is a bespoke hardware device capable of One-Time Passwords (OTP),
+    storing static passwords and also challenge-response.
 \end{itemize}
 
-PAM USB\parencite{steele2005paranoid} is an additional mechanism added to
+PAM USB \parencite{steele2005paranoid} is an additional mechanism added to
 this list. It allows users of Unix systems to log in by plugging in a USB
 mass storage device.
-
-In this chapter, we will explore the feasibiity of adopting some of
-these authentication methods within an enterprise. The primary consideration
-is around detailing the setup and maintenance steps and whether any
-method can be justifiably ruled out in the early phases of a feasibility
-study. In section~\ref{sec:evaluation}, we will look at how the evaluation
-was carried out and the remaining sections detail that evaluation against each
-considered method.
 
 \section{Evaluating Use in the Enterprise}
 \label{sec:evaluation}
 
 Some of the identified alternatives to password authentication were
 evaluated for use in an organisational setting. The focus of this evaluation
-was to detail the steps involved in creating a toy network of machines
+was to run through the steps involved in creating a toy network of machines
 that allowed common authentication across a representative sample of
 classes of services that may be used by businesses.
 
@@ -435,25 +366,27 @@ The requirements for our toy/proof-of-concept systems were:
 \begin{itemize}
   \item \textbf{Desktop Login}: users can sign into desktop machines using the authentication method
     being evaluated;
-  \item \textbf{Company Email}: users can then access their corporate email without needing additionally
+  \item \textbf{Company Email}: users can then access their corporate email without additionally
     supplying a password to do so;
   \item \textbf{Web Login}: users are able to sign in to a dummy web service (a simple static page
     behind an authentication layer was used);
   \item \textbf{SSH Login}: users should be able to do remote SSH login to development Unix
     servers (this assumes a company where this is a common work task, e.g.
-    software development, which is including to exercise the authentication
+    software development, which is included to exercise the authentication
     further rather than to act as a typical business use case).
 \end{itemize}
 
 This setup has many parallels with the needs for common credentials or
 Single Sign-On (SSO) within business computer systems. It is typical for
 companies to have an authoritative directory server so that users
-can at least use the same password across all company services. Some businesses
+can at least use the same password across all company services.
+
+Some businesses
 attempt true SSO and ensure users only type their password during initial
 login and they are automatically authorised against all revelant systems
-thereafter. This is recommended practice to reduce some of the effort
-remembering multiple passwords or even typing the same password several times
-a day. Ideally, a suitable password alternative would provide similar
+thereafter.
+
+Ideally, a suitable password alternative would provide similar
 convenience in minimising effort from users when allowing access to a multitude
 of systems in a day.
 
@@ -467,12 +400,11 @@ The methods evaluated were:
   \item PKI Tokens. A smartcard-based PKI token was evaluated with the
     assumption again this will extrapolate to any PKI token. Mobile PKI was
     ruled out for consideration as it requires mobile operators to install
-    keys on their customers SIM cards, which has been problematic in the
-    past.
-  \item PAM USB.
-  \item YubiKey. This is a hardware USB device from Yubico that can act
-    as an OTP generator, a challenge-response token and even a store
-    for a static password.
+    keys on their customers SIM cards.
+  \item \texttt{pam\_usb}. This module receives little attention in the literature
+    but is a working tool used by many Linux users.
+  \item YubiKey. This device seems promising with its ability to do different
+    authentication mechanisms.
 \end{itemize}
 
 TIQR was ruled out as the aims of the project to date seem to be based around
@@ -502,17 +434,10 @@ can be achieved with configuration management systems such as Puppet,
 Chef, Ansible, Salt, etc.
 
 Another option is to try to centralise the OTP authentication.
-Solutions such as LinOTP suggest the abiity to have a centralised
+Solutions such as LinOTP suggest the ability to have a centralised
 OTP-based authentication system with a custom PAM module. Combined
 with Kerberos, true Single Sign-On should then be possible
 including for access to email and web-based applications.
-
-A centralised solution is more flexible for corporate systems
-as PAM does not provide an intrinsic method for fowarding local
-authentication on to other services. Microsoft Windows achieved
-this in the past with NTLM -- which is possible to configure
-also on Unix systems with Winbind -- but that is largely
-regarded as an insecure mechanism today.
 
 LinOTP also provides centralised web-based identity approaches
 such as OpenID and SAML. A company-wide identity provider would
@@ -525,24 +450,13 @@ could make agreement with the provider to allow employees to log in
 via OpenID or SAML. Universities already use this model for access to online
 journals and academic materials.
 
-Some desktop environments (e.g. Gnome, Mac OS X) provide
-a local keychain that can store SSH keys, SSL certificates, etc.
-which are unlocked whilst the user is logged in, but inaccessible
-otherwise. This already provides a convenience desktop
-users, but it relies on the user authenticating with a password
-that is then the same password used to update the keychain
-(Mac OS X updates the keychain password when the user's main
-account password is changed). There maybe be some scope for
-further research into whether dekstop keychains can be made
-compatible with OTP authentication.
-
 There is certainly scope for further work to evaluate extensive
-use of LinOTP and Kerberos within an enterprise setting and the
-benefits they bring over relying on a local desktop keychain.
+use of LinOTP and Kerberos within an enterprise setting as least as
+a case study.
 
 \section{PAM USB}
 
-The PAM USB module for the PAM system is similar in many
+The \texttt{pam\_usb} module for the PAM system is similar in many
 ways to the OATH OTP module in terms of setup. The module
 installs easily on Debian GNU/Linux systems and it provides
 tools to manage a single configuration file that stores a
@@ -553,21 +467,13 @@ when the USB key is removed, which is helpful in corporate
 environments where users are instructed to lock their desktops
 when they are unattended. This mechanism is in line with
 drivers removing their keys when they leave their car
-unattended, so this is more in line with existing user
+unattended, which fits with existing user
 habits than asking users not to disclose or to strengthen
 their passwords.
 
 However, this PAM module has the same limitations as the
 OATH OTP module in that the very simple local authenication
 is not easily forwarded to other services on the network.
-
-%An advantage this module has over the OATH OTP module is that
-%local applications can make authentication requests
-%multiple times without the user needing to be involved. As
-%long as the USB device remains connected, applications
-%can authenticate multiple times, but OTP authentication
-%will require a new password to be entered on each authentication
-%request.
 
 An advantage this module has over the OATH OTP module is that
 a USB storage device can also store other authentication
@@ -600,12 +506,6 @@ smartcard requires a PIN and the card has a lock-out after 3 incorrect tries.
 This is behaviour users can recognise from their bank smartcards and the
 lock-out feature negates the guessability of even a weak 4 to 6 digit PIN.
 
-The use of a PIN does not eliminate the ``something you
-know'' factor, but a short PIN is far less of a burden
-than the requirement for users to have strong, random
-passwords. This could be a reasonable compromise for an
-enterprise given some further usability research.
-
 The difficulty of eliminating a password or PIN from the login workflow
 suggests that the PKI token or smartcard approach is more suitable for
 situations where security requirements are higher and two-factor authentication
@@ -613,11 +513,12 @@ is preferable. The same technology is used for debit/credit card transactions
 and for withdrawing cash from a bank account and thus we would expect it
 to be used in other organisations that have similar security requirements.
 
-The \emph{Scute} project provides a PKCS~\#11 module that allows an OpenPGP
-smartcard to be used with the Network Security Services (NSS) within
+The \emph{Scute}\footnote{http://www.scute.org/}
+project provides a PKCS~\#11 module that allows an OpenPGP
+smartcard to be used with the Network Security Services (NSS) and
 the Firefox web browser (we believe Chrome also supports this, but Firefox
 was used in our test network). Combined with Apache's \emph{mod\_nss} (which
-derives from mod\_ssl), we were able to implement an authentication layer
+derives from \texttt{mod\_ssl}), we were able to implement an authentication layer
 over a web-based application that supported an OpenPGP smartcard.
 
 NSS also allows the same key to be used within Mozilla Thunderbird for
@@ -696,7 +597,7 @@ different password alternatives and their use in the enterprise.
 \chapter{Conclusions and Recommendations}
 \label{chapter:conclusion}
 
-Table~\ref{table:overview} summarises the approaches tried on our test network
+Table~4.1 summarises the approaches tried on our test network
 and discussed in chapter~\ref{chapter:alternatives}. In some cases, there
 are a few alternatives listed where some aspects of more than one approach
 were explored. These are by no means a definitive list of all options available
@@ -704,8 +605,9 @@ to individuals and organisations and some of the technologies and systems
 not evaluated thoroughly are mentioned in passing throughout
 chapter~\ref{chapter:alternatives}.
 
-\begin{table}[h]
-  \begin{tabular}{|l|l|l|l|l|} \hline
+\begin{sidewaystable}[p]
+\centering
+  \begin{tabular}{|l|p{4cm}|p{4cm}|p{4cm}|p{4cm}|} \hline
                             & \textbf{OTP Apps} & \textbf{pam\_usb} & \textbf{OpenPGP smartcard} & \textbf{YubiKey} \\ \hline
     \textbf{Desktop Login}  & pam\_oath        & pam\_usb                    & pam\_poldi & pam\_oath, pam\_yubico  \\ \hline
     \textbf{Company Email}  & LinOTP + Kerberos & X.509 certificate on device & Scute      & LinOTP + Kerberos, static password + OpenLDAP   \\ \hline
@@ -713,7 +615,8 @@ chapter~\ref{chapter:alternatives}.
     \textbf{SSH Login}      & Gnome keyring    & SSH key stored on device    & gpg-agent  &  \\ \hline
   \end{tabular}
   \label{table:overview}
-\end{table}
+  \caption{Summary of technologies involved in achieving enterprise requirements from each authentication mechanism.}
+\end{sidewaystable}
 
 Overall, YubiKeys seem to provide the best balance between application support,
 usability and compatibility. OpenPGP and other smartcards are perhaps also
@@ -745,7 +648,7 @@ need to report lost or stolen physical items (company ID card, house keys, credi
 whereas the evidence in the literature around passwords suggests users disclose
 passwords far more readily (whether deliberately or inadvertantly).
 
-Thus we can recommend coporations are able to evaluate the hardware costs
+Thus we can recommend corporations are able to evaluate the hardware costs
 and consider YubiKeys as a ``drop in'' replacement for users memorising
 passwords with few infrastructure changes. This strategy even lends itself
 to the possiblity of being run as a trial with one team or department. Over time,
@@ -763,7 +666,7 @@ not been demonstrated.
 The following questions are open and are possibilities for further research:
 
 \begin{itemize}
-\item What is the effectiveness and what potential issues are there around
+\item What is the effectiveness of and what potential issues are there around
   a real deployment of LinOTP within a business? An empirical study in a
   real world setting would give some valuable insights.
 \item What is the best approach (if any) to storing keys and certificates on
