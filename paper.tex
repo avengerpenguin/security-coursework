@@ -22,23 +22,13 @@ computers, mobile devices or centralised services (e.g.
 as company email, corporate intranet or web-based self-service
 systems for tasks such as booking annual leave).
 
-These authentication requirements are largely driven by
-several desires:
-
-\begin{itemize}
-  \item to prevent use of systems by non-employees;
-  \item to maintain an audit trail of employees' usage;
-  \item to protect company secrets and intellectual property;
-  \item to safeguard the personal information of customers and employees; and
-  \item to prevent economic and reputational damage from would-be attackers.
-\end{itemize}
-
 Additional security in any system normally comes with additional costs
 in terms of usability for users and in financial terms for the organisation
 that must implement any security processes and policies. In this paper, we
 argue that these benefits are primarily for the organisation more than the
-users, so are the usability and effort costs placed on users justifiable
-if they are to gain very little?
+users. This calls into question the justifiability of placing
+effort and usability costs on users when they gain little out of it
+personally.
 
 In chapter~\ref{chapter:costs}, we will explore the
 cost-benefit trade-offs more closely and demonstrate that the status
@@ -88,8 +78,8 @@ that users will purposefully work around requirements imposed via
 management.
 
 \textcite{herley2009so} argued that users rationally reject costs
-placed upon them from security policies. He invokes Kuhn's
-``Paradigm Shift''\parencite{kuhn1962structure} to suggest
+placed upon them from security policies. He invoked Kuhn's
+``Paradigm Shift'' \parencite{kuhn1962structure} to suggest
 an imminent, yet dramatic change in
 how users are asked to authenticate as the complexity of
 rules placed on users increases with each attack.
@@ -115,15 +105,6 @@ from exposure to those costs themselves.
 
 \section{Password Strength}
 \label{sec:strength}
-
-Password-protected accounts are vunerable to at least three
-classes of attack \parencite{florencio2014password}:
-
-\begin{itemize}
-  \item Malware infection or other direct compromise of the client machine (e.g. keyloggers)
-  \item Attacker learns the passwords via phishing, brute-force guessing or other means
-  \item Access to a particular system is gained without the actual password (e.g session hijacking, cross-site request forgery)
-\end{itemize}
 
 The notion of \emph{password strength} describes how likely
 a password is to suffer from an attacker learning the password via brute-force
