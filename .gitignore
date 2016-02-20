@@ -110,3 +110,5 @@ sympy-plots-for-*.tex/
 
 *~
 .vagrant
+*.pdf
+packer_cache
