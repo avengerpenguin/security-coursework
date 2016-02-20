@@ -110,7 +110,7 @@ tools like \texttt{apt} depend on it. On
 a Debian or Ubuntu GNU/Linux system that does not have it installed, it
 can be installed quite simply with:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ sudo apt-get install gnupg
 [...]
 $
@@ -118,7 +118,7 @@ $
 
 We can run the command to see there are no keys already generated:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --list-keys
 gpg: directory `/home/ross/.gnupg' created
 gpg: new configuration file `/home/ross/.gnupg/gpg.conf' created
@@ -134,7 +134,7 @@ directory, then details of them would be printed out as well.
 
 To create a key, we simply need to run:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --gen-key
 gpg (GnuPG) 1.4.12; Copyright (C) 2012 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
@@ -177,7 +177,7 @@ public and secret key created and signed.
 
 gpg: checking the trustdb
 gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
-gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 0  valid: 1  signed: 0  trust: 0-, 0q, 0n, 0m, 0f, 1u
 pub   4096R/B8D85C76 2014-12-14
       Key fingerprint = BDFD 1EF9 9052 4326 BA89  3897 30BC 9067 B8D8 5C76
 uid                  Ross Fenning <gpg@rossfenning.co.uk>
@@ -190,12 +190,13 @@ you may be asked to generate some entropy.
 Machines have a hard time using a good source of randomness to make sure
 the key is not predictable and guessable, so you may be required to do
 some work via keystrokes, mouse movements or run some processes that
-do disk activity. Once this is complete, you will have your public and
+do disk activity to generate some random events from which entropy
+can be derived. Once this is complete, you will have your public and
 private key pair.
 
 To see the public key, enter:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --list-keys
 /home/ross/.gnupg/pubring.gpg
 -----------------------------
@@ -207,7 +208,7 @@ $
 
 \noindent and to see the corresponding private key:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --list-secret-keys
 /home/ross/.gnupg/secring.gpg
 -----------------------------
@@ -228,7 +229,7 @@ encrypted files or messages that only we can decrypt.
 
 To export a public key into a file, do the following:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --output mypublickey.gpg --export B8D85C76
 $
 \end{lstlisting}
@@ -240,7 +241,7 @@ convenient to export the key in ASCII for ease of pasting into emails
 or instant messaging chats. To do this, we need to \emph{ASCII-armor}
 the key thus:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --armor --export B8D85C76
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.12 (GNU/Linux)
@@ -257,7 +258,7 @@ anyone who wishes to send you encrypted messages.
 
 Another party can then simply import your key:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --import mypublickey.pgp
 gpg: key B8D85C76: public key "Ross Fenning <gpg@rossfenning.co.uk>" imported
 gpg: Total number processed: 1
@@ -269,7 +270,7 @@ Once someone has your public key, they should verify it to ensure
 it wasn't tampered and replaced in transit. To do this, the other
 party would check your public key's fingerprint:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --fingerprint B8D85C76
 pub   4096R/B8D85C76 2014-12-14
       Key fingerprint = BDFD 1EF9 9052 4326 BA89  3897 30BC 9067 B8D8 5C76
@@ -290,7 +291,7 @@ Now the other party is happy they have imported your public key and
 verified it is indeed your key in their possession, they are then
 able to sign it:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --sign-key B8D85C76
 
 pub  4096R/B8D85C76  created: 2014-12-14  expires: never       usage: SC  
@@ -322,7 +323,7 @@ which is then used to sign your public key within their keyring. This
 tells their system that they vouch for that key. Typically, the other
 party would then export your now-signed key again:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --output B8D85C76-signedby-12345678.gpg  --export B8D85C76
 $
 \end{lstlisting}
@@ -330,13 +331,13 @@ $
 \noindent so that you can then import the signed version to replace your
 unsigned one:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --import B8D85C76-signedby-12345678.gpg
 gpg: key B8D85C76: "Ross Fenning <gpg@rossfenning.co.uk>" 1 new signature
 gpg: Total number processed: 1
 gpg:         new signatures: 1
 gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
-gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 0  valid: 1  signed: 0  trust: 0-, 0q, 0n, 0m, 0f, 1u
 $
 \end{lstlisting}
 
@@ -358,7 +359,7 @@ you that only you may see.
 
 For example, let us say they created a private message in a plain text file:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ echo "Hello" >secret.txt
 $ cat secret.txt 
 Hello
@@ -366,18 +367,12 @@ Hello
 
 \noindent they are then able to encrypt this secret message so that only you may read it:
 
-\begin{lstlisting}[language=bash]
-$ echo "Hello" >secret.txt
-$ cat secret.txt 
-Hello
-\end{lstlisting}
-
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --recipient B8D85C76 --encrypt secret.txt
 gpg: checking the trustdb
 gpg: 3 marginal(s) needed, 1 complete(s) needed, PGP trust model
-gpg: depth: 0  valid:   2  signed:   1  trust: 0-, 0q, 0n, 0m, 0f, 2u
-gpg: depth: 1  valid:   1  signed:   0  trust: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: depth: 0  valid: 2  signed: 1  trust: 0-, 0q, 0n, 0m, 0f, 2u
+gpg: depth: 1  valid: 1  signed: 0  trust: 1-, 0q, 0n, 0m, 0f, 0u
 gpg: next trustdb check due at 2015-04-20
 $ ls secret.txt*
 secret.txt  secret.txt.gpg
@@ -393,7 +388,7 @@ called \texttt{secret.txt.asc}).
 The other party can then send the encrypted file or paste the ASCII version into
 an email and then you can decrypt it:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 $ gpg --decrypt secret.txt.gpg
 
 You need a passphrase to unlock the secret key for
@@ -420,16 +415,18 @@ testing. This setup could also be used to observe and trace behaviours
 of malware, e.g. viruses, but perhaps with a more stringent approach
 to network isolation (see section~\ref{sec:netsec}).
 
-The setup here is a network of virtual machines running under Virtualbox
+The setup here is a network of virtual machines running under Virtualbox\footnote{https://www.virtualbox.org/}
 running on a host computer that can be isolated if necessary. Once the
-setup has been designed, we will look at using Vagrant to make a repeatable
+setup has been designed, we will look at using Vagrant\footnote{https://www.vagrantup.com/}
+to make a repeatable
 way of bootstrapping the lab on demand. This will help if we ever feel the
 need to tear down the entire setup and start afresh or to share the
 configuration with other researchers.
 
 \section{Kali}
 
-Kali is a GNU/Linux distribution based on Debian that comes with hundreds
+Kali\footnote{https://www.kali.org/}
+is a GNU/Linux distribution based on Debian that comes with hundreds
 of tools preinstalled that can be used in cracking and penetration testing. It
 is available to download as an ISO CD image file which can easily be used
 to install in a virtual machine using Virtualbox.
@@ -442,7 +439,8 @@ the Packer build that created this image.\footnote{https://github.com/ctarwater/
 
 \section{Metasploitable}
 
-Metasploitable is a pre-built virtual machine from Rapid 7 to aid with learning
+Metasploitable\footnote{http://sourceforge.net/projects/metasploitable/}
+is a pre-built virtual machine from Rapid 7 to aid with learning
 its penetration testing tool, Metasploit. We can equally make use of this
 for learning Kali. As with Kali, we can add a configuration to our Vagrantfile
 (appendix~\ref{appendix:vagrant}) for a pre-built box for convenience. Other
@@ -486,11 +484,11 @@ that the guests do not even have a gateway to the outside world. We can see
 on the routing table that the guest only knows how to talk to the private
 network:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}
 vagrant@metasploitable:~$ route
 Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-192.168.51.0    *               255.255.255.0   U     0      0        0 eth0
+Destination   Gateway  Genmask        Flags Metric Ref  Use  Iface
+192.168.51.0  *        255.255.255.0  U     0      0      0  eth0
 vagrant@metasploitable:~$
 \end{lstlisting}
 
@@ -506,6 +504,8 @@ viruses. If we are running malicious code (as opposed to simply running
 exploitable services), then we likely want to make sure the host machine
 is simply disconnected from any network and reinstall the whole host
 before it is allowed back on any public network.
+
+\printbibliography
 
 \appendix
 
